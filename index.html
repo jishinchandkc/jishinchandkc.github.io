@@ -170,6 +170,15 @@ h2 {
 .pair p { margin: 0 0 0.7rem; }
 .pair .res { font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent); }
 
+/* showtime cases */
+.case { margin-top: 2.5rem; padding-top: 1rem; border-top: 2px solid var(--ink); }
+.case h3 { font-family: var(--font-display); font-size: 1.4rem; line-height: 1.2; margin: 0.35rem 0 1rem; text-wrap: balance; }
+.case .rows { margin-top: 1.5rem; }
+#showtime .pair { margin-top: 2.5rem; }
+.pair .wide { grid-column: 1 / -1; }
+.pair .fine { font-size: 0.85rem; color: var(--muted); }
+.pair .funnel { margin-bottom: 0.7rem; }
+
 /* more */
 .more { list-style: none; margin: 1.5rem 0 0; padding: 0; border-top: 1px solid var(--line); }
 .more li { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 0.25rem 2rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line); }
@@ -234,10 +243,104 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
   </div>
 
   <ul class="index" id="work">
-    <li><a href="#smart-joules"><span class="t">HVAC complaint portal</span><span class="m">Smart Joules, 2024</span><span class="r">Resolution time down 70%</span></a></li>
-    <li><a href="#carts"><span class="t">Street food cart scheme, revived</span><span class="m">Showtime Consulting, 2025 to 2026</span><span class="r">24 new carts, 44% higher profit</span></a></li>
-    <li><a href="#program"><span class="t">Residential leadership program</span><span class="m">Showtime Consulting, 2025 to 2026</span><span class="r">1,420 participants, 4.65/5 satisfaction</span></a></li>
+    <li><a href="#program"><span class="t">Residential leadership program</span><span class="m">Showtime Consulting, 2025 to 2026</span><span class="r">11 of 11 batches, 1,420 participants</span></a></li>
+    <li><a href="#carts"><span class="t">Street food cart scheme, revived</span><span class="m">Showtime Consulting, 2025 to 2026</span><span class="r">24 women vendors, 44% higher profit</span></a></li>
+    <li><a href="#app"><span class="t">Membership app engagement</span><span class="m">Showtime Consulting, 2025 to 2026</span><span class="r">Session length up 15%</span></a></li>
+    <li><a href="#smart-joules"><span class="t">HVAC complaint portal</span><span class="m">Smart Joules internship, 2024</span><span class="r">Resolution time down 70%</span></a></li>
   </ul>
+
+  <section id="showtime">
+    <span class="label">Showtime Consulting · Senior Associate, Director's Team · April 2025 to January 2026</span>
+    <h2>Ten months on the director's team</h2>
+    <p class="sub">Showtime advises government and public-sector clients. These are the workstreams I worked on. Client names are withheld.</p>
+
+    <article class="case" id="program">
+      <span class="label">Training program</span>
+      <h3>The client's first residential leadership program</h3>
+      <table class="ledger">
+        <tbody>
+          <tr><th scope="row">Batches delivered as scheduled</th><td>11 of 11</td></tr>
+          <tr><th scope="row">Participants</th><td>1,420</td></tr>
+          <tr><th scope="row">Batch reports</th><td>prepared the same day, submitted the next day</td></tr>
+          <tr><th scope="row">Participant satisfaction</th><td>4.65/5</td></tr>
+          <tr><th scope="row">Outcome</th><td>client extended it to the next tier</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Satisfaction rates the trainers and the content, which I did not own.</p>
+      <dl class="rows">
+        <div class="row">
+          <dt>Before</dt>
+          <dd>The client had never run a residential program at this scale. Two batches a week, on Monday and Thursday, left three days to fix anything before the next group arrived.</dd>
+        </div>
+        <div class="row">
+          <dt>My part</dt>
+          <dd>I was the consulting firm's coordinator. I confirmed the master schedule and shared it across the client's teams, and turned the module content into presentation decks for two to three modules. During each batch, I directed a 10-member on-site team: collecting attendance signatures, checking every booklet and kit against the count, and calling each absentee to record the reason. I prepared each batch report the same day and submitted it to the client's senior leadership the next day.</dd>
+        </div>
+        <div class="row">
+          <dt>Feedback</dt>
+          <dd>Feedback started on handwritten Telugu forms that were hard to read and slow to add up. Participants moved to Google Forms, and trainer forms were entered into Excel. From the data, I recommended which trainers to bring back and which sessions needed more time. The client made the final call. Changes that went through included longer sessions and a move from 1.5 to 2 full days.</dd>
+        </div>
+        <div class="row">
+          <dt>Hardest part</dt>
+          <dd>The speakers were senior leaders I could not direct, and the client held every final decision. The job was recommending from evidence, not mandating.</dd>
+        </div>
+      </dl>
+    </article>
+
+    <article class="case" id="carts">
+      <span class="label">Livelihood scheme · Mangalagiri, Andhra Pradesh</span>
+      <h3>Street food cart scheme, revived</h3>
+      <table class="ledger">
+        <tbody>
+          <tr><th scope="row">Women vendors put into business</th><td>24, one new cart each</td></tr>
+          <tr><th scope="row">Vendor profit</th><td>44% higher</td></tr>
+        </tbody>
+      </table>
+      <p class="note">The 44% is the vendors' outcome, measured across a cohort that included our 24 carts.</p>
+      <dl class="rows">
+        <div class="row">
+          <dt>Before</dt>
+          <dd>A scheme giving carts to women street vendors had a 52-cart pilot behind it, then sat for 14 months with no owner.</dd>
+        </div>
+        <div class="row">
+          <dt>My part</dt>
+          <dd>I came across it during interviews on another topic; nobody had asked us to look at it. Studying the pilot, I found three operational gaps: no daily accountability for hygiene, a single raw-material supplier, and no vendor training. I proposed a daily geotagged photo check-in to close the first.</dd>
+        </div>
+        <div class="row">
+          <dt>With the team</dt>
+          <dd>Together we added a second supplier, brought in structured vendor training and coordinated the relaunch of 24 new carts. A teammate led the pitch.</dd>
+        </div>
+      </dl>
+    </article>
+
+    <div class="pair">
+      <article id="app">
+        <span class="label">Product</span>
+        <h3>A client's membership app</h3>
+        <p>The app had 100,000+ downloads but low engagement, with average sessions of about five minutes. I interviewed users, benchmarked reward and streak mechanics from apps like Cred and Duolingo, and split the fixes into a phase 1 the product team could ship on the existing screens and a phase 2 that needed new backend work. The product team built phase 1.</p>
+        <p class="res">Average session length up 15%, from 5:00 to 5:45</p>
+        <p class="fine">No A/B test; nothing else major shipped in that window.</p>
+      </article>
+      <article id="policy">
+        <span class="label">Policy</span>
+        <h3>From a vague brief to 13 recommendations</h3>
+        <p>The brief was to "develop an outreach strategy". I reframed it as: which communities are missing support, and at which life stage? I mapped 18 occupational communities across 3 life stages and 9 support areas, and benchmarked what 17 other states provide.</p>
+        <p>One finding: banks demanded 100% surety on loans the government already subsidized by 50%.</p>
+        <p class="res">13 recommendations</p>
+      </article>
+      <article id="pipeline" class="wide">
+        <span class="label">Livelihoods</span>
+        <h3>A self-employment pipeline with 6 government departments</h3>
+        <p>I designed the meeting format and the interest forms. Across 16 meetings, 9 for awareness and 7 for screening, 2,380 people attended.</p>
+        <div class="funnel" role="img" aria-label="Funnel: 857 registrations, 458 bank applications, 107 sanctions">
+          <div class="bar"><span class="fill" style="--w:100%"></span><span class="num">857 registrations</span></div>
+          <div class="bar"><span class="fill" style="--w:53.44%"></span><span class="num">458 bank applications</span></div>
+          <div class="bar"><span class="fill" style="--w:12.49%"></span><span class="num">107 sanctions</span></div>
+        </div>
+        <p class="fine">At the report date, 294 applications were still pending with banks and 57 had been rejected. Credit history (CIBIL) was the largest barrier. A partner university prepared the project reports and handled bank submission.</p>
+      </article>
+    </div>
+  </section>
 
   <section id="smart-joules">
     <span class="label">Smart Joules · Strategy Intern, CEO's Office · April to June 2024</span>
@@ -286,7 +389,7 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
         <dt>Hardest part</dt>
         <dd>
           <p>Getting operators to use it and enter the data correctly. Usage started near zero.</p>
-          <p>I coached operators one-on-one across 8 sessions. I also found that language was limiting use of the written SOPs, so I created audio and video training aids in Hindi and Telugu, which other sites later adopted.</p>
+          <p>I coached 9 of the 10 operators one-on-one across 8 sessions. I also found that language was limiting use of the written SOPs, so I created audio and video training aids in Hindi and Telugu, which other sites later adopted.</p>
         </dd>
       </div>
       <div class="row">
@@ -296,26 +399,6 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
     </dl>
   </section>
 
-  <section id="carts-program">
-    <span class="label">Showtime Consulting · Senior Associate, Director's Team · April 2025 to January 2026</span>
-    <h2>Two programs, run end to end</h2>
-    <div class="pair">
-      <article id="carts">
-        <span class="label">Livelihood scheme</span>
-        <h3>Street food carts in Mangalagiri, Andhra Pradesh</h3>
-        <p>A livelihood scheme for street food vendors had been discontinued. I identified 3 operational gaps in the original 52-cart pilot, and we relaunched it with geotagged monitoring, an additional supply partner and vendor training.</p>
-        <p>The relaunch put 24 women vendors into business, one new cart each.</p>
-        <p class="res">44% higher profit</p>
-      </article>
-      <article id="program">
-        <span class="label">Training program</span>
-        <h3>The client's first residential leadership program</h3>
-        <p>I led end-to-end execution for 1,420 participants across 11 cohorts and 10 executive-led modules. I managed a 10-member on-site team for registrations, attendance and training kits, with next-day reporting to the client.</p>
-        <p>I owned the feedback loop, from form design to timing, format and content changes. Seeing the program's success, the client extended it to a second tier of participants.</p>
-        <p class="res">4.65/5 satisfaction</p>
-      </article>
-    </div>
-  </section>
 
   <section id="how-i-work">
     <span class="label">Principles</span>
@@ -327,7 +410,7 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
       </div>
       <div class="row">
         <dt>Start with the user</dt>
-        <dd>The cart scheme surfaced during interviews on livelihood opportunities, when one interviewee mentioned it. Before scaling it, we looked at what had worked and what had not for its earlier users.</dd>
+        <dd>The cart scheme surfaced in interviews on another topic. Before relaunching it, I studied the 52-cart pilot for what had worked and what had not, which is where the three gaps came from.</dd>
       </div>
       <div class="row">
         <dt>Feedback has to be doable</dt>
@@ -345,18 +428,6 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
         <div>
           <p>National winner of ProdNix 1.0 with a team of three, a product management case competition run by IIM Jammu and The Product Folks, among 400+ teams. I ranked 6 features with RICE scoring and impact-effort analysis. Primary research across 4 UX attributes found 7 user pain points and a 2.97/5 CSAT.</p>
           <p class="links"><a href="https://www.linkedin.com/feed/update/urn:li:activity:7243989207331807232/">See the winners' announcement on LinkedIn</a></p>
-        </div>
-      </li>
-      <li>
-        <span class="label">Funnel</span>
-        <div>
-          <p>Built and tracked the application funnel for a self-employment scheme: 857 registrations, 458 bank applications and 107 sanctions, working with 6 government departments.</p>
-          <div class="funnel" role="img" aria-label="Funnel: 857 registrations, 458 bank applications, 107 sanctions">
-            <div class="bar"><span class="fill" style="--w:100%"></span><span class="num">857 registrations</span></div>
-            <div class="bar"><span class="fill" style="--w:53.44%"></span><span class="num">458 bank applications</span></div>
-            <div class="bar"><span class="fill" style="--w:12.49%"></span><span class="num">107 sanctions</span></div>
-          </div>
-          <p class="note">The drop-off was due to bank eligibility criteria and applicants' CIBIL credit scores.</p>
         </div>
       </li>
       <li>
