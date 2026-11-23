@@ -150,6 +150,7 @@ h2 {
 .more li { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 0.25rem 2rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line); }
 .more .label { padding-top: 0.3rem; }
 .more p { margin: 0; max-width: 40rem; }
+.more .links { margin-top: 0.4rem; font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); }
 
 /* contact */
 .contact p { margin: 0 0 0.4rem; }
@@ -307,11 +308,17 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
       </li>
       <li>
         <span class="label">Web apps</span>
-        <p>Launched 3 live web apps with AI coding tools: a puzzle solver and two logic games. I owned scope, user flows and onboarding.</p>
+        <div>
+          <p>Launched 3 live web apps with AI coding tools: a puzzle solver and two logic games. I owned scope, user flows and onboarding.</p>
+          <p class="links"><a href="https://kanoodlesolver.netlify.app/">Kanoodle solver</a> · <a href="https://thechainreactiongame.netlify.app/">Chain Reaction</a> · <a href="https://cowsnbullsgame.netlify.app/">Cows and Bulls</a></p>
+        </div>
       </li>
       <li>
         <span class="label">SQL</span>
-        <p>A three-layer SQL pipeline over 55,000 synthetic events, deduplicated with window functions and CTEs. It flags potential bot activity above 10 times a 14-day rolling regional baseline.</p>
+        <div>
+          <p>A three-layer SQL pipeline over 55,000 synthetic events, deduplicated with window functions and CTEs. It flags potential bot activity above 10 times a 14-day rolling regional baseline.</p>
+          <p class="links"><a href="https://github.com/jishinchandkc/financial-analytics-and-risk-portfolio">View the code on GitHub</a></p>
+        </div>
       </li>
     </ul>
   </section>
