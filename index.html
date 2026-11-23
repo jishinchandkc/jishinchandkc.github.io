@@ -148,7 +148,7 @@ h2 {
 .bar .num { position: relative; display: block; padding-left: 0.6rem; line-height: 2rem; font-family: var(--font-mono); font-size: 0.85rem; white-space: nowrap; }
 
 /* ledger */
-.ledger { width: 100%; border-collapse: collapse; margin: 0; }
+.ledger { width: 100%; border-collapse: collapse; margin: 0; border-top: 1px solid var(--line); }
 .ledger th, .ledger td { text-align: left; padding: 0.7rem 0; border-bottom: 1px solid var(--line); vertical-align: top; }
 .ledger th { font-weight: 500; width: 40%; padding-right: 1rem; }
 .ledger td { font-family: var(--font-mono); font-size: 0.95rem; }
@@ -222,37 +222,15 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
     <h2>Getting HVAC operators to log complaints in a portal</h2>
     <p class="sub">Smart Joules runs HVAC operations for hospitals and commercial buildings. The question was how to get faster, cleaner complaint data from the people at the units.</p>
 
-    <dl class="rows">
-      <div class="row">
-        <dt>Before</dt>
-        <dd>
-          <p>Operators noted complaints in a notepad at the unit and copied them into the site register later. The relationship manager typed the register into Excel on top of the day job, and emailed it to the manager when head office asked. Reports could go out a day or two late.</p>
-          <p>A prototype portal existed, but few operators used it, and those who did typed complaints as free text.</p>
-        </dd>
-      </div>
-      <div class="row">
-        <dt>The call</dt>
-        <dd>
-          <p>Make logging quicker than the paper chain, and make the data trackable.</p>
-          <p>The free text in the prototype was full of spelling mistakes and different wording from each operator, so the same problem was hard to track. A list of categories fixes that: the operator picks one instead of typing. A QR code on each unit identifies the machine.</p>
-        </dd>
-      </div>
-      <div class="row">
-        <dt>My part</dt>
-        <dd>Smart Joules' tech team built the portal in Zoho, starting from a prototype. I proposed three changes that went into it: standardised complaint categories, a QR code on each unit for on-the-spot logging, and a dashboard I designed. Then I drove adoption. I did not write code.</dd>
-      </div>
-      <div class="row">
-        <dt>Hardest part</dt>
-        <dd>
-          <p>Getting operators to use it and enter the data correctly. Usage started near zero.</p>
-          <p>I coached operators one-on-one across 8 sessions. I also found that language was limiting use of the written SOPs, so I created audio and video training aids in Hindi and Telugu, which other sites later adopted.</p>
-        </dd>
-      </div>
-      <div class="row">
-        <dt>Capacity</dt>
-        <dd>I traced the complaint backlog to understaffing and 16-hour shifts and proposed both fixes. Headcount went to 10 and shifts dropped to 12 hours.</dd>
-      </div>
-    </dl>
+    <table class="ledger">
+      <tbody>
+        <tr><th scope="row">Service resolution time</th><td>down 70%</td></tr>
+        <tr><th scope="row">Portal usage</th><td>near zero to 90%</td></tr>
+        <tr><th scope="row">Reporting stages</th><td>4 to 2</td></tr>
+        <tr><th scope="row">Manual data entry</th><td>2.5 hours a day removed, 700+ hours a year</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Resolution time runs from the complaint arriving to the reply that it is resolved.</p>
 
     <div class="flow" role="group" aria-label="Complaint reporting chain, before and after">
       <div class="flow-row">
@@ -273,15 +251,27 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
       </div>
     </div>
 
-    <table class="ledger">
-      <tbody>
-        <tr><th scope="row">Portal usage</th><td>near zero to 90%</td></tr>
-        <tr><th scope="row">Reporting stages</th><td>4 to 2</td></tr>
-        <tr><th scope="row">Manual data entry</th><td>2.5 hours a day removed, 700+ hours a year</td></tr>
-        <tr><th scope="row">Service resolution time</th><td>down 70%</td></tr>
-      </tbody>
-    </table>
-    <p class="note">Resolution time runs from the complaint arriving to the reply that it is resolved.</p>
+    <dl class="rows">
+      <div class="row">
+        <dt>Before</dt>
+        <dd>Every complaint went through the paper chain above, with the relationship manager doing the typing on top of the day job, so reports could go out a day or two late. A prototype portal existed, but few operators used it, and those who did typed complaints as free text.</dd>
+      </div>
+      <div class="row">
+        <dt>My part</dt>
+        <dd>The free text in the prototype was full of spelling mistakes and different wording from each operator, so the same problem was hard to track. I proposed three changes that Smart Joules' tech team built into the Zoho portal: a list of complaint categories to pick from instead of typing, a QR code on each unit to identify the machine on the spot, and a dashboard I designed. I did not write code.</dd>
+      </div>
+      <div class="row">
+        <dt>Hardest part</dt>
+        <dd>
+          <p>Getting operators to use it and enter the data correctly. Usage started near zero.</p>
+          <p>I coached operators one-on-one across 8 sessions. I also found that language was limiting use of the written SOPs, so I created audio and video training aids in Hindi and Telugu, which other sites later adopted.</p>
+        </dd>
+      </div>
+      <div class="row">
+        <dt>Capacity</dt>
+        <dd>I traced the complaint backlog to understaffing and 16-hour shifts and proposed both fixes. Headcount went to 10 and shifts dropped to 12 hours.</dd>
+      </div>
+    </dl>
   </section>
 
   <section id="carts-programme">
@@ -291,8 +281,8 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
       <article id="carts">
         <span class="label">Livelihood scheme</span>
         <h3>Street food carts in Mangalagiri, Andhra Pradesh</h3>
-        <p>A livelihood scheme for street food vendors had been discontinued. We revived it and launched 24 new carts, building on the original 52-cart pilot.</p>
-        <p>Three changes: geotagged monitoring, an additional supply partner and vendor training. The scheme supports 24 women vendors.</p>
+        <p>A livelihood scheme for street food vendors had been discontinued. I identified 3 operational gaps in the original 52-cart pilot, and we relaunched it with geotagged monitoring, an additional supply partner and vendor training.</p>
+        <p>The relaunch put 24 women vendors into business, one new cart each.</p>
         <p class="res">44% higher profit</p>
       </article>
       <article id="programme">
