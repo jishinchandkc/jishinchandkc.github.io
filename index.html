@@ -124,12 +124,28 @@ h2 {
 .row dd p { margin: 0 0 0.6rem; }
 .row dd p:last-child { margin-bottom: 0; }
 
-/* before / after */
-.ba { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
-.ba > div { background: var(--panel); padding: 1rem 1.1rem; min-width: 0; }
-.ba .label { display: block; margin-bottom: 0.4rem; }
-.ba p { margin: 0; }
-.ba .after .label { color: var(--accent); }
+/* reporting chain, before / after */
+.flow { display: grid; gap: 1rem; margin: 2rem 0; }
+.flow-row { background: var(--panel); padding: 1rem 1.1rem 1.1rem; min-width: 0; }
+.flow-row .label { display: block; margin-bottom: 0.7rem; }
+.flow-row.after .label { color: var(--accent); }
+.steps { list-style: none; margin: 0; padding: 0; display: flex; align-items: stretch; }
+.steps li { flex: 1 1 0; min-width: 0; position: relative; padding: 0.65rem 0.75rem; background: var(--paper); border: 1px solid var(--line); }
+.steps li + li { margin-left: 1.75rem; }
+.steps li + li::before { content: "\2192"; position: absolute; left: -1.4rem; top: 50%; transform: translateY(-50%); font-family: var(--font-mono); color: var(--muted); }
+.flow-row.after .steps li { border-color: var(--accent); }
+.flow-row.after .steps li + li::before { color: var(--accent); }
+.steps b { display: block; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+.steps span { display: block; margin-top: 0.25rem; font-size: 0.9rem; line-height: 1.4; color: var(--muted); }
+
+/* funnel bars */
+.funnel { display: grid; gap: 0.35rem; margin-top: 0.8rem; max-width: 40rem; }
+.bar { position: relative; height: 2rem; background: var(--panel); overflow: hidden; }
+.bar .fill { position: absolute; inset: 0 auto 0 0; width: var(--w); background: color-mix(in srgb, var(--accent) 24%, transparent); border-right: 2px solid var(--accent); transform-origin: left; transition: transform 0.9s cubic-bezier(.2,.7,.2,1); }
+.bar:nth-child(2) .fill { transition-delay: 0.15s; }
+.bar:nth-child(3) .fill { transition-delay: 0.3s; }
+.funnel.pending .fill { transform: scaleX(0); }
+.bar .num { position: relative; display: block; padding-left: 0.6rem; line-height: 2rem; font-family: var(--font-mono); font-size: 0.85rem; white-space: nowrap; }
 
 /* ledger */
 .ledger { width: 100%; border-collapse: collapse; margin: 0; }
@@ -168,7 +184,10 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
   .index a { grid-template-columns: 1fr; }
   .row, .more li { grid-template-columns: 1fr; }
   .row dt { padding-top: 0; }
-  .ba, .pair { grid-template-columns: 1fr; }
+  .pair { grid-template-columns: 1fr; }
+  .steps { flex-direction: column; }
+  .steps li + li { margin-left: 0; margin-top: 1.6rem; }
+  .steps li + li::before { content: "\2193"; left: 50%; top: -1.35rem; transform: translateX(-50%); }
   .ledger th { width: 48%; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
@@ -188,7 +207,7 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
   </header>
 
   <div class="hero">
-    <h1>I make field operations easier to run and easier to report on.</h1>
+    <h1>I turn messy processes into systems people actually use.</h1>
     <p>MBA, IIM Lucknow. Strategy and operations work with a product lens: process redesign, workflow digitisation and adoption on the ground. I am looking for founder's office and product roles.</p>
   </div>
 
@@ -232,14 +251,22 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
       </div>
     </dl>
 
-    <div class="ba" role="group" aria-label="Logging a complaint, before and after">
-      <div>
-        <span class="label">Before</span>
-        <p>Write it in a register or send it on WhatsApp, in free text. Someone re-types it later.</p>
+    <div class="flow" role="group" aria-label="Complaint reporting chain, before and after">
+      <div class="flow-row">
+        <span class="label">Before · 4 steps</span>
+        <ol class="steps">
+          <li><b>Notepad</b><span>Operator notes the complaint at the unit</span></li>
+          <li><b>Register</b><span>Copied into the register later, when free</span></li>
+          <li><b>Excel</b><span>Relationship manager types it up</span></li>
+          <li><b>Email</b><span>Sent to the manager when head office asks</span></li>
+        </ol>
       </div>
-      <div class="after">
-        <span class="label">After</span>
-        <p>Scan the unit's QR code and pick a category. The complaint is logged as it happens.</p>
+      <div class="flow-row after">
+        <span class="label">After · 2 steps</span>
+        <ol class="steps">
+          <li><b>Phone</b><span>Operator scans the unit's QR code and picks a category</span></li>
+          <li><b>Web portal</b><span>Manager sees it in the portal, no re-typing</span></li>
+        </ol>
       </div>
     </div>
 
@@ -311,7 +338,14 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
       </li>
       <li>
         <span class="label">Funnel</span>
-        <p>Built and tracked the application funnel for a self-employment scheme: 857 registrations, 458 bank applications and 107 sanctions, working with 6 government departments.</p>
+        <div>
+          <p>Built and tracked the application funnel for a self-employment scheme: 857 registrations, 458 bank applications and 107 sanctions, working with 6 government departments.</p>
+          <div class="funnel" role="img" aria-label="Funnel: 857 registrations, 458 bank applications, 107 sanctions">
+            <div class="bar"><span class="fill" style="--w:100%"></span><span class="num">857 registrations</span></div>
+            <div class="bar"><span class="fill" style="--w:53.44%"></span><span class="num">458 bank applications</span></div>
+            <div class="bar"><span class="fill" style="--w:12.49%"></span><span class="num">107 sanctions</span></div>
+          </div>
+        </div>
       </li>
       <li>
         <span class="label">Web apps</span>
@@ -358,6 +392,17 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
 </div>
 
 <script>
+(function () {
+  var funnel = document.querySelector('.funnel');
+  var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (funnel && !calm && 'IntersectionObserver' in window) {
+    funnel.classList.add('pending');
+    var io = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) { funnel.classList.remove('pending'); io.disconnect(); }
+    }, { threshold: 0.4 });
+    io.observe(funnel);
+  }
+})();
 (function () {
   var btn = document.getElementById('copy');
   var out = document.getElementById('copied');
