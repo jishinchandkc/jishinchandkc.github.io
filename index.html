@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jishin Chand K C</title>
+<meta name="description" content="Jishin Chand K C, MBA from IIM Lucknow. Strategy and operations work with a product lens, looking for founder's office and product roles.">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout concept: a field logbook. Left-aligned single column, mono labels in a narrow gutter, ledger rows for results. */
+:root {
+  --paper: #F1F4F2;
+  --panel: #E6EBE8;
+  --ink: #15211B;
+  --muted: #55645B;
+  --line: #C7D1CB;
+  --accent: #0A6B66;
+  --font-display: "Bricolage Grotesque", "IBM Plex Sans", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0E1512;
+    --panel: #16201B;
+    --ink: #E4ECE6;
+    --muted: #9AAAA0;
+    --line: #2A3830;
+    --accent: #5CCFC4;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0E1512;
+  --panel: #16201B;
+  --ink: #E4ECE6;
+  --muted: #9AAAA0;
+  --line: #2A3830;
+  --accent: #5CCFC4;
+  color-scheme: dark;
+}
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 56rem; margin: 0 auto; padding-block: 1.5rem 4rem; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* header */
+.top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
+.top .name { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; }
+.top nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
+.top nav a { font-family: var(--font-mono); font-size: 0.8rem; text-decoration: none; color: var(--muted); }
+.top nav a:hover { color: var(--accent); }
+
+/* hero */
+.hero { padding-block: 3rem 2.5rem; }
+h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 5.2vw, 3.4rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  max-width: 20ch;
+  margin: 0 0 1.25rem;
+}
+.hero p { max-width: 38rem; color: var(--muted); margin: 0; }
+
+/* index */
+.index { margin: 0 0 1rem; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.index a {
+  display: grid;
+  grid-template-columns: 1.4fr 1.2fr 1fr;
+  gap: 0.25rem 1.5rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+}
+.index a:hover .t { color: var(--accent); }
+.index .t { font-weight: 600; }
+.index .m { color: var(--muted); font-size: 0.95rem; }
+.index .r { font-family: var(--font-mono); font-size: 0.85rem; }
+
+/* sections */
+section { padding-top: 3.5rem; }
+h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  margin: 0.4rem 0 0.5rem;
+  max-width: 28ch;
+}
+.sub { color: var(--muted); margin: 0 0 1.75rem; max-width: 40rem; }
+
+/* case rows */
+.rows { margin: 0; border-top: 1px solid var(--line); }
+.row { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 0.25rem 2rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+.row dt { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding-top: 0.3rem; }
+.row dd { margin: 0; max-width: 40rem; }
+.row dd p { margin: 0 0 0.6rem; }
+.row dd p:last-child { margin-bottom: 0; }
+
+/* before / after */
+.ba { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
+.ba > div { background: var(--panel); padding: 1rem 1.1rem; min-width: 0; }
+.ba .label { display: block; margin-bottom: 0.4rem; }
+.ba p { margin: 0; }
+.ba .after .label { color: var(--accent); }
+
+/* ledger */
+.ledger { width: 100%; border-collapse: collapse; margin: 0; }
+.ledger th, .ledger td { text-align: left; padding: 0.7rem 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.ledger th { font-weight: 500; width: 40%; padding-right: 1rem; }
+.ledger td { font-family: var(--font-mono); font-size: 0.95rem; }
+.note { font-size: 0.9rem; color: var(--muted); margin: 0.75rem 0 0; max-width: 40rem; }
+
+/* compact cases */
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2.5rem; margin-top: 1.5rem; }
+.pair article { border-top: 2px solid var(--ink); padding-top: 0.9rem; min-width: 0; }
+.pair h3 { font-family: var(--font-display); font-size: 1.25rem; line-height: 1.2; margin: 0.35rem 0 0.6rem; text-wrap: balance; }
+.pair p { margin: 0 0 0.7rem; }
+.pair .res { font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent); }
+
+/* more */
+.more { list-style: none; margin: 1.5rem 0 0; padding: 0; border-top: 1px solid var(--line); }
+.more li { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 0.25rem 2rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line); }
+.more .label { padding-top: 0.3rem; }
+.more p { margin: 0; max-width: 40rem; }
+
+/* contact */
+.contact p { margin: 0 0 0.4rem; }
+.mail { display: inline-flex; flex-wrap: wrap; gap: 0.5rem 0.75rem; align-items: center; }
+.mail code { font-family: var(--font-mono); font-size: 0.95rem; user-select: all; }
+.mail button {
+  font: inherit; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
+  background: transparent; color: var(--accent); border: 1px solid var(--accent); padding: 0.25rem 0.6rem; cursor: pointer;
+}
+.mail button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 0.85rem; color: var(--muted); }
+
+@media (max-width: 720px) {
+  .index a { grid-template-columns: 1fr; }
+  .row, .more li { grid-template-columns: 1fr; }
+  .row dt { padding-top: 0; }
+  .ba, .pair { grid-template-columns: 1fr; }
+  .ledger th { width: 48%; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <span class="name">Jishin Chand K C</span>
+    <nav aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#how-i-work">How I work</a>
+      <a href="#more">Also built</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h1>I make field operations easier to run and easier to report on.</h1>
+    <p>MBA, IIM Lucknow. Strategy and operations work, with a product lens. I am looking for founder's office and product roles.</p>
+  </div>
+
+  <ul class="index" id="work">
+    <li><a href="#smart-joules"><span class="t">HVAC complaint portal</span><span class="m">Smart Joules, 2024</span><span class="r">Resolution time down 70%</span></a></li>
+    <li><a href="#carts"><span class="t">Street food cart scheme, revived</span><span class="m">Mangalagiri, Andhra Pradesh</span><span class="r">24 new carts, 44% higher profit</span></a></li>
+    <li><a href="#programme"><span class="t">Residential leadership programme</span><span class="m">Showtime Consulting</span><span class="r">1,420 leaders, 4.65/5 satisfaction</span></a></li>
+  </ul>
+
+  <section id="smart-joules">
+    <span class="label">Smart Joules · Strategy Intern, CEO's Office · April to June 2024</span>
+    <h2>Getting field operators to log HVAC complaints in a portal</h2>
+    <p class="sub">Smart Joules runs HVAC operations for hospitals and commercial buildings. The question was how to get faster, cleaner complaint data from the people at the units.</p>
+
+    <dl class="rows">
+      <div class="row">
+        <dt>Before</dt>
+        <dd>Complaints arrived in a register or on WhatsApp. A second person copied them into a spreadsheet and emailed it, so the report was not live and could go out a day or two late. That person was already the relationship manager and did it on top of the day job.</dd>
+      </div>
+      <div class="row">
+        <dt>The call</dt>
+        <dd>Make logging quicker than the old way. A QR code on each unit identifies it, and a list of categories replaces the free-text box.</dd>
+      </div>
+      <div class="row">
+        <dt>My part</dt>
+        <dd>I set the requirements and designed the dashboard. Smart Joules' tech team built the portal in Zoho. I did not write code.</dd>
+      </div>
+      <div class="row">
+        <dt>Hardest part</dt>
+        <dd>
+          <p>Getting operators to use it and enter the data correctly. Usage started near zero.</p>
+          <p>I coached operators one-on-one across 8 sessions. I also found that language was limiting use of the written SOPs, so I created audio and video training aids in Hindi and Telugu, which other sites later adopted.</p>
+        </dd>
+      </div>
+      <div class="row">
+        <dt>Capacity</dt>
+        <dd>I traced the complaint backlog to understaffing and 16-hour shifts and proposed both fixes. Headcount went to 10 and shifts dropped to 12 hours.</dd>
+      </div>
+    </dl>
+
+    <div class="ba" role="group" aria-label="Logging a complaint, before and after">
+      <div>
+        <span class="label">Before</span>
+        <p>Write it in a register or send it on WhatsApp, in free text. Someone re-types it later.</p>
+      </div>
+      <div class="after">
+        <span class="label">After</span>
+        <p>Scan the unit's QR code and pick a category. The complaint is logged as it happens.</p>
+      </div>
+    </div>
+
+    <table class="ledger">
+      <tbody>
+        <tr><th scope="row">Portal usage</th><td>near zero to 90%</td></tr>
+        <tr><th scope="row">Reporting stages</th><td>4 to 2</td></tr>
+        <tr><th scope="row">Manual data entry</th><td>2.5 hours a day removed, 700+ hours a year</td></tr>
+        <tr><th scope="row">Service resolution time</th><td>down 70%</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Resolution time runs from the complaint arriving to the reply that it is resolved.</p>
+  </section>
+
+  <section id="carts-programme">
+    <span class="label">Showtime Consulting · Senior Associate, Director's Team · April 2025 to January 2026</span>
+    <h2>Two programmes delivered on the ground</h2>
+    <div class="pair">
+      <article id="carts">
+        <span class="label">Livelihood scheme</span>
+        <h3>Street food carts in Mangalagiri, Andhra Pradesh</h3>
+        <p>A livelihood scheme for street food vendors had been discontinued. We revived it and launched 24 new carts, building on the original 52-cart pilot.</p>
+        <p>Three changes: geotagged monitoring, an additional supply partner and vendor training. The scheme supports 24 women vendors.</p>
+        <p class="res">44% higher profit</p>
+      </article>
+      <article id="programme">
+        <span class="label">Training programme</span>
+        <h3>The client's first residential leadership programme</h3>
+        <p>I led end-to-end execution for 1,420 local leaders across 11 cohorts and 10 executive-led modules. I managed a 10-member on-ground team for registrations, attendance and training kits, with next-day reporting to client leadership.</p>
+        <p>I owned the feedback loop, from form design to timing, format and content changes. Seeing the programme's success, the client extended it to a second leadership tier.</p>
+        <p class="res">4.65/5 satisfaction</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="how-i-work">
+    <span class="label">Principles</span>
+    <h2>How I work</h2>
+    <dl class="rows">
+      <div class="row">
+        <dt>Adoption before features</dt>
+        <dd>At Smart Joules, the portal's problem wasn't missing features. Operators found it awkward and didn't know how to use it. So the work was fitting it to them and making sure they felt comfortable, because people only use a tool properly once it suits them.</dd>
+      </div>
+      <div class="row">
+        <dt>Listen in the field</dt>
+        <dd>The cart scheme came up in field interviews where we were looking for business opportunities for people. One person mentioned it, so we looked at whether it could be scaled, starting with what the earlier users had been through.</dd>
+      </div>
+      <div class="row">
+        <dt>Feedback has to be doable</dt>
+        <dd>On the leadership programme, not every piece of feedback could be acted on. We checked each suggestion for whether it could actually be implemented before changing anything, because an idea you can't carry out doesn't improve anything.</dd>
+      </div>
+      <div class="row">
+        <dt>Small changes, often</dt>
+        <dd>I'd rather make a small improvement, check it and make the next one than finish everything and hand it over in one go. Small changes add up to better outcomes.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section id="more">
+    <span class="label">Product and analytics</span>
+    <h2>Also built</h2>
+    <ul class="more">
+      <li>
+        <span class="label">Competition</span>
+        <p>National winner of ProdNix 1.0, a product management case competition run by IIM Jammu and The Product Folks, among 400+ teams. I ranked 6 features with RICE scoring and impact-effort analysis. Primary research across 4 UX attributes found 7 user pain points and a 2.97/5 CSAT.</p>
+      </li>
+      <li>
+        <span class="label">Funnel</span>
+        <p>Built and tracked the application funnel for a self-employment scheme: 857 registrations, 458 bank applications and 107 sanctions, working with 6 government departments.</p>
+      </li>
+      <li>
+        <span class="label">Web apps</span>
+        <p>Launched 3 live web apps with AI coding tools: a puzzle solver and two logic games. I owned scope, user flows and onboarding.</p>
+      </li>
+      <li>
+        <span class="label">SQL</span>
+        <p>A three-layer SQL pipeline over 55,000 synthetic events, deduplicated with window functions and CTEs. It flags potential bot activity above 10 times a 14-day rolling regional baseline.</p>
+      </li>
+    </ul>
+  </section>
+
+  <section id="background">
+    <span class="label">Background</span>
+    <h2>Education and certifications</h2>
+    <ul class="more">
+      <li><span class="label">2023 to 2025</span><p>MBA, Indian Institute of Management Lucknow</p></li>
+      <li><span class="label">2017 to 2021</span><p>B.Tech, Chemical Engineering, National Institute of Technology Karnataka, Surathkal</p></li>
+      <li><span class="label">Certified</span><p>Lean Six Sigma Green Belt (Grant Thornton Bharat, 2023). Foundations of Business Analysis (SAP, 2025).</p></li>
+    </ul>
+  </section>
+
+  <section id="contact" class="contact">
+    <span class="label">Contact</span>
+    <h2>Say hello</h2>
+    <p class="mail"><code id="addr">jishinchandkc@gmail.com</code><button type="button" id="copy">Copy</button><span id="copied" class="label" role="status"></span></p>
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/jishinchandkc/">jishinchandkc</a></p>
+    <p>GitHub: <a href="https://github.com/jishinchandkc">jishinchandkc</a></p>
+  </section>
+
+  <footer>Figures are from my CV. Client names are withheld.</footer>
+</div>
+
+<script>
+(function () {
+  var btn = document.getElementById('copy');
+  var out = document.getElementById('copied');
+  var addr = document.getElementById('addr');
+  btn.addEventListener('click', function () {
+    var text = addr.textContent;
+    function fallback() {
+      var r = document.createRange(); r.selectNodeContents(addr);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      out.textContent = 'Selected, press copy';
+    }
+    try {
+      navigator.clipboard.writeText(text).then(function () { out.textContent = 'Copied'; }, fallback);
+    } catch (e) { fallback(); }
+  });
+})();
+</script>
+</body>
+</html>
