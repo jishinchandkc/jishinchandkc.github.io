@@ -79,7 +79,9 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .top nav a:hover { color: var(--accent); }
 
 /* hero */
-.hero { padding-block: 3rem 2.5rem; }
+.hero { padding-block: 3rem 2.5rem; display: grid; grid-template-columns: minmax(0, 1fr) 9.5rem; gap: 1.5rem 2.5rem; align-items: start; }
+.hero .hero-text { grid-column: 1; grid-row: 1; min-width: 0; }
+.hero .photo { grid-column: 2; grid-row: 1; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; border: 1px solid var(--line); background: #fff; margin-top: 0.4rem; }
 h1 {
   font-family: var(--font-display);
   font-weight: 700;
@@ -179,6 +181,20 @@ h2 {
 .pair .fine { font-size: 0.85rem; color: var(--muted); }
 .pair .funnel { margin-bottom: 0.7rem; }
 
+/* expandable cases */
+.gist { margin: 1.25rem 0 0; max-width: 40rem; }
+details.full { margin-top: 1rem; }
+details.full > summary { display: inline-flex; align-items: center; gap: 0.5rem; list-style: none; cursor: pointer; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 0.45rem 0.8rem; }
+details.full > summary::-webkit-details-marker { display: none; }
+details.full > summary::after { content: "\25BE"; transition: transform 0.2s; }
+details.full[open] > summary::after { transform: rotate(180deg); }
+details.full > summary:hover { background: var(--accent); color: var(--paper); }
+details.full > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+details.full .when-open { display: none; }
+details.full[open] .when-open { display: inline; }
+details.full[open] .when-closed { display: none; }
+details.full > .rows { margin-top: 1.25rem; }
+
 /* more */
 .more { list-style: none; margin: 1.5rem 0 0; padding: 0; border-top: 1px solid var(--line); }
 .more li { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 0.25rem 2rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line); }
@@ -211,6 +227,9 @@ h2 {
 footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 0.85rem; color: var(--muted); }
 
 @media (max-width: 720px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero .photo { grid-row: 1; grid-column: 1; width: 6.5rem; }
+  .hero .hero-text { grid-row: 2; }
   .index a { grid-template-columns: 1fr; }
   .row, .more li { grid-template-columns: 1fr; }
   .row dt { padding-top: 0; }
@@ -237,9 +256,12 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
   </header>
 
   <div class="hero">
+    <img class="photo" src="img/headshot.jpg" width="413" height="531" alt="Portrait of Jishin Chand K C">
+    <div class="hero-text">
     <h1>I turn messy processes into systems people actually use.</h1>
     <p>MBA, IIM Lucknow. Strategy and operations work with a product lens: process redesign, workflow digitization and user adoption. I am looking for founder's office and product roles. From Kerala, currently in Bangalore, and open to relocation.</p>
     <p class="cv"><a href="Jishin_Chand_K_C_CV.pdf" download>Download CV (PDF)</a></p>
+    </div>
   </div>
 
   <ul class="index" id="work">
@@ -267,6 +289,9 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
         </tbody>
       </table>
       <p class="note">Satisfaction rates the trainers and the content, which I did not own.</p>
+      <p class="gist">I coordinated the program for the consulting firm: the schedule, a 10-member on-site team, the feedback system and a report after every batch.</p>
+      <details class="full">
+        <summary><span class="when-closed">Read the full case</span><span class="when-open">Hide the full case</span></summary>
       <dl class="rows">
         <div class="row">
           <dt>Before</dt>
@@ -285,6 +310,7 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
           <dd>The speakers were senior leaders I could not direct, and the client held every final decision. The job was recommending from evidence, not mandating.</dd>
         </div>
       </dl>
+      </details>
     </article>
 
     <article class="case" id="carts">
@@ -297,6 +323,9 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
         </tbody>
       </table>
       <p class="note">The 44% is the vendors' outcome, measured across a cohort that included our 24 carts.</p>
+      <p class="gist">I found the scheme sitting dormant, diagnosed three operational gaps, and the team relaunched it with 24 new carts.</p>
+      <details class="full">
+        <summary><span class="when-closed">Read the full case</span><span class="when-open">Hide the full case</span></summary>
       <dl class="rows">
         <div class="row">
           <dt>Before</dt>
@@ -311,6 +340,7 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
           <dd>Together we added a second supplier, brought in structured vendor training and coordinated the relaunch of 24 new carts. A teammate led the pitch.</dd>
         </div>
       </dl>
+      </details>
     </article>
 
     <div class="pair">
@@ -354,6 +384,7 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
       </tbody>
     </table>
     <p class="note">Resolution time runs from the complaint arriving to the reply that it is resolved.</p>
+    <p class="gist">I proposed categories, QR logging and a dashboard for the portal, then coached operators from near-zero usage to 90%.</p>
 
     <div class="flow" role="group" aria-label="Complaint reporting chain, before and after">
       <div class="flow-row">
@@ -374,6 +405,8 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
       </div>
     </div>
 
+    <details class="full">
+      <summary><span class="when-closed">Read the full case</span><span class="when-open">Hide the full case</span></summary>
     <dl class="rows">
       <div class="row">
         <dt>Before</dt>
@@ -395,6 +428,7 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
         <dd>I traced the complaint backlog to understaffing and 16-hour shifts and proposed both fixes. Headcount went to 10 and shifts dropped to 12 hours.</dd>
       </div>
     </dl>
+    </details>
   </section>
 
 
@@ -491,6 +525,9 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
 </div>
 
 <script>
+window.addEventListener('beforeprint', function () {
+  document.querySelectorAll('details.full').forEach(function (d) { d.open = true; });
+});
 (function () {
   var funnel = document.querySelector('.funnel');
   var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
