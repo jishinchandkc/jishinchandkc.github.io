@@ -176,6 +176,17 @@ h2 {
 .more .certs p + p { margin-top: 0.4rem; }
 .more .links { margin-top: 0.4rem; font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); }
 
+/* app cards */
+.apps { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 0.9rem; margin-top: 0.9rem; }
+.app { display: flex; flex-direction: column; min-width: 0; border: 1px solid var(--line); background: var(--panel); color: var(--ink); text-decoration: none; transition: border-color 0.2s, transform 0.2s; }
+.app img { display: block; width: 100%; height: auto; aspect-ratio: 8 / 5; object-fit: cover; border-bottom: 1px solid var(--line); }
+.app .name { padding: 0.6rem 0.75rem 0; font-weight: 600; }
+.app .name::after { content: " \2197"; font-family: var(--font-mono); font-weight: 400; color: var(--accent); }
+.app .desc { padding: 0.2rem 0.75rem 0.75rem; font-size: 0.88rem; line-height: 1.45; color: var(--muted); }
+.app:hover { border-color: var(--accent); transform: translateY(-2px); }
+.app:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .app:hover { transform: none; } }
+
 /* contact */
 .contact p { margin: 0 0 0.4rem; }
 .mail { display: inline-flex; flex-wrap: wrap; gap: 0.5rem 0.75rem; align-items: center; }
@@ -348,7 +359,23 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
         <span class="label">Web apps</span>
         <div>
           <p>Launched 3 live web apps with AI coding tools: a puzzle solver and two logic games. I owned scope, user flows and onboarding.</p>
-          <p class="links"><a href="https://kanoodlesolver.netlify.app/">Kanoodle solver</a> · <a href="https://thechainreactiongame.netlify.app/">Chain Reaction</a> · <a href="https://cowsnbullsgame.netlify.app/">Cows and Bulls</a></p>
+          <div class="apps">
+            <a class="app" href="https://kanoodlesolver.netlify.app/">
+              <img src="img/kanoodle.jpg" width="800" height="500" loading="lazy" alt="Kanoodle Extreme Solver with a fully solved, colorful 5 by 11 board">
+              <span class="name">Kanoodle solver</span>
+              <span class="desc">Paint the pieces already placed and it completes the 5×11 board.</span>
+            </a>
+            <a class="app" href="https://thechainreactiongame.netlify.app/">
+              <img src="img/chain-reaction.jpg" width="800" height="500" loading="lazy" alt="Chain Reaction start screen with player and board-size settings">
+              <span class="name">Chain Reaction</span>
+              <span class="desc">Turn-based grid strategy game with cascading chain explosions, built mobile first.</span>
+            </a>
+            <a class="app" href="https://cowsnbullsgame.netlify.app/">
+              <img src="img/cows-and-bulls.jpg" width="800" height="500" loading="lazy" alt="Cows and Bulls guided walkthrough explaining how a guess is scored">
+              <span class="name">Cows and Bulls</span>
+              <span class="desc">Code-breaking game with a guided walkthrough for new players.</span>
+            </a>
+          </div>
         </div>
       </li>
       <li>
