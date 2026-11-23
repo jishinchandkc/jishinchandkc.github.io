@@ -195,6 +195,47 @@ details.full[open] .when-open { display: inline; }
 details.full[open] .when-closed { display: none; }
 details.full > .rows { margin-top: 1.25rem; }
 
+/* automation graph */
+.graph-wrap { margin: 0.9rem 0 0; max-width: 40rem; border: 1px solid var(--line); background: var(--panel); padding: 0.8rem 0.6rem 0.6rem; }
+.graph { display: block; width: 100%; height: auto; }
+.graph-tall { display: none; max-width: 22rem; margin: 0 auto; }
+.graph .g-node rect { fill: var(--paper); stroke: var(--line); stroke-width: 1.2; }
+.graph .g-engine rect { stroke: var(--accent); stroke-width: 2; }
+.graph .g-out rect { stroke: var(--accent); stroke-width: 1.2; }
+.graph .g-human rect { fill: var(--accent); stroke: var(--accent); }
+.graph .g-human .g-title, .graph .g-human .g-sub { fill: var(--paper); }
+.graph text { text-anchor: middle; }
+.graph .g-title { font-family: var(--font-body); font-size: 12.5px; font-weight: 600; fill: var(--ink); }
+.graph .g-engine .g-title { font-family: var(--font-display); font-size: 18px; }
+.graph .g-small { font-size: 11px; }
+.graph .g-sub { font-family: var(--font-mono); font-size: 9.5px; fill: var(--muted); }
+.graph .g-tool circle { fill: var(--paper); stroke: var(--muted); stroke-width: 1.2; }
+.graph .g-glyph { font-family: var(--font-mono); font-size: 13px; fill: var(--accent); }
+.graph .g-wire { fill: none; stroke: var(--accent); stroke-width: 1.6; }
+.graph .g-dash { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 4 4; }
+.graph .g-arrow { fill: var(--accent); }
+.graph .g-tilebg { fill: #fff; stroke: var(--line); stroke-width: 1; }
+.graph .g-left { text-anchor: start; }
+.graph-wrap figcaption { margin-top: 0.5rem; font-size: 0.82rem; color: var(--muted); }
+
+/* sample daily report */
+.report { margin: 0.9rem 0 0; max-width: 40rem; border: 1px solid var(--line); background: var(--panel); }
+.report-head { padding: 0.8rem 0.9rem 0.7rem; border-bottom: 1px solid var(--line); }
+.report-head .label { display: block; padding: 0; }
+.more .report-big { margin: 0.25rem 0 0; font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; line-height: 1.2; }
+.report-big span { font-family: var(--font-body); font-weight: 400; font-size: 0.95rem; color: var(--accent); }
+.more .report-split { margin: 0.2rem 0 0; font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); }
+.report-rows { list-style: none; margin: 0; padding: 0; }
+.more .report-rows li { display: block; padding: 0.55rem 0.9rem; border-bottom: 1px solid var(--line); background: var(--paper); }
+.report-rows b { display: block; font-weight: 600; font-size: 0.95rem; }
+.report-rows .meta { display: block; margin-top: 0.15rem; font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); }
+.redact { display: inline-block; width: 4.5rem; height: 0.7em; background: var(--ink); opacity: 0.55; vertical-align: middle; border-radius: 2px; }
+.ref { color: var(--muted); }
+.ref.yes { color: var(--accent); }
+.ref.yes::before { content: "\2713  "; }
+.more .report-foot { margin: 0; padding: 0.6rem 0.9rem; font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.5; color: var(--muted); }
+.report figcaption { padding: 0 0.9rem 0.7rem; font-size: 0.82rem; color: var(--muted); }
+
 /* more */
 .more { list-style: none; margin: 1.5rem 0 0; padding: 0; border-top: 1px solid var(--line); }
 .more li { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 0.25rem 2rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line); }
@@ -234,6 +275,8 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
   .row, .more li { grid-template-columns: 1fr; }
   .row dt { padding-top: 0; }
   .pair { grid-template-columns: 1fr; }
+  .graph-wide { display: none; }
+  .graph-tall { display: block; }
   .steps { flex-direction: column; }
   .steps li + li { margin-left: 0; margin-top: 1.6rem; }
   .steps li + li::before { content: "\2193"; left: 50%; top: -1.35rem; transform: translateX(-50%); }
@@ -487,8 +530,28 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
       <li>
         <span class="label">Automation · 2026</span>
         <div>
-          <p>I built my own job search pipeline with Claude. It runs daily scans of LinkedIn, Naukri, Indeed, IIMJobs and email alerts, removes listings I have already seen using a shared ledger, filters on the full job description, and matches each role against my referral contacts. Inbox triage writes drafts only and never sends.</p>
-          <p class="note">One day's run: 45 searches, 378 listings screened, 73 job descriptions read, 27 new roles shortlisted, 12 with a referral contact.</p>
+          <p>I built my own job search pipeline with Claude. It runs daily scans of LinkedIn, Naukri, Indeed, IIMJobs and email alerts, removes listings I have already seen using a shared ledger, filters on the full job description, and matches each role against my referral contacts. It is read-only: it drafts referral messages for me to review, and never sends anything or applies anywhere.</p>
+          <figure class="graph-wrap">
+            <svg class="graph graph-wide" viewBox="0 0 760 326" role="img" aria-label="Job search pipeline: LinkedIn, Naukri, Indeed, IIMJobs and Gmail career alerts feed scheduled Claude runs, which check a ledger in Google Drive, the job pages, a referral tracker in Excel and Glassdoor or AmbitionBox ratings, then write a daily report with draft referral asks that I review and send myself."><defs><marker id="arrowW" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="g-arrow"/></marker></defs><path class="g-wire" d="M188,40 C228,40 228,160 266,160" marker-end="url(#arrowW)"/><path class="g-wire" d="M188,96 C228,96 228,160 266,160" marker-end="url(#arrowW)"/><path class="g-wire" d="M188,152 C228,152 228,160 266,160" marker-end="url(#arrowW)"/><path class="g-wire" d="M188,208 C228,208 228,160 266,160" marker-end="url(#arrowW)"/><path class="g-wire" d="M188,264 C228,264 228,160 266,160" marker-end="url(#arrowW)"/><g class="g-node"><rect x="8" y="20" width="180" height="40" rx="6"/><rect class="g-tilebg" x="14" y="26" width="28" height="28" rx="7"/><image href="img/logos/linkedin.png" x="18.0" y="30.0" width="20" height="20" preserveAspectRatio="xMidYMid meet"/><text x="52" y="37" class="g-title g-left">LinkedIn</text><text x="52" y="50" class="g-sub g-left">job search</text></g><g class="g-node"><rect x="8" y="76" width="180" height="40" rx="6"/><rect class="g-tilebg" x="14" y="82" width="28" height="28" rx="7"/><image href="img/logos/naukri.png" x="18.0" y="86.0" width="20" height="20" preserveAspectRatio="xMidYMid meet"/><text x="52" y="93" class="g-title g-left">Naukri</text><text x="52" y="106" class="g-sub g-left">job search</text></g><g class="g-node"><rect x="8" y="132" width="180" height="40" rx="6"/><rect class="g-tilebg" x="14" y="138" width="28" height="28" rx="7"/><svg x="18.0" y="142.0" width="20" height="20" viewBox="440 8 1110 1110"><image href="img/logos/indeed.webp" width="2000" height="1125"/></svg><text x="52" y="149" class="g-title g-left">Indeed</text><text x="52" y="162" class="g-sub g-left">job search</text></g><g class="g-node"><rect x="8" y="188" width="180" height="40" rx="6"/><rect class="g-tilebg" x="14" y="194" width="28" height="28" rx="7"/><image href="img/logos/iimjobs.png" x="18.0" y="198.0" width="20" height="20" preserveAspectRatio="xMidYMid meet"/><text x="52" y="205" class="g-title g-left">IIMJobs</text><text x="52" y="218" class="g-sub g-left">job search</text></g><g class="g-node"><rect x="8" y="244" width="180" height="40" rx="6"/><rect class="g-tilebg" x="14" y="250" width="28" height="28" rx="7"/><image href="img/logos/gmail.png" x="18.0" y="254.0" width="20" height="20" preserveAspectRatio="xMidYMid meet"/><text x="52" y="261" class="g-title g-left">Gmail</text><text x="52" y="274" class="g-sub g-left">company career alerts</text></g><path class="g-dash" d="M353,202 C353,226 262,224 262,250"/><path class="g-dash" d="M353,202 C353,226 342,224 342,250"/><path class="g-dash" d="M353,202 C353,226 422,224 422,250"/><path class="g-dash" d="M353,202 C353,226 516,224 516,250"/><g class="g-node g-engine"><rect x="268" y="118" width="170" height="84" rx="8"/><image href="img/logos/claude.png" x="341" y="128" width="24" height="24" preserveAspectRatio="xMidYMid meet"/><text x="353" y="172" class="g-title">Claude</text><text x="353" y="188" class="g-sub">scheduled daily runs</text></g><g class="g-tool"><rect class="g-tilebg" x="245.0" y="250" width="34" height="34" rx="7"/><image href="img/logos/drive.png" x="251.0" y="256.0" width="22" height="22" preserveAspectRatio="xMidYMid meet"/><text x="262" y="300" class="g-title g-small">Ledger</text><text x="262" y="313" class="g-sub">skip seen</text></g><g class="g-tool"><rect class="g-tilebg" x="325.0" y="250" width="34" height="34" rx="7"/><text x="342.0" y="271.84" class="g-glyph">¶</text><text x="342" y="300" class="g-title g-small">Job pages</text><text x="342" y="313" class="g-sub">read the JD</text></g><g class="g-tool"><rect class="g-tilebg" x="405.0" y="250" width="34" height="34" rx="7"/><image href="img/logos/excel.png" x="411.0" y="256.0" width="22" height="22" preserveAspectRatio="xMidYMid meet"/><text x="422" y="300" class="g-title g-small">Referrals</text><text x="422" y="313" class="g-sub">my contacts</text></g><g class="g-tool"><rect class="g-tilebg" x="487.0" y="250" width="58" height="34" rx="7"/><image href="img/logos/glassdoor.png" x="491.6666666666667" y="256.0" width="22" height="22" preserveAspectRatio="xMidYMid meet"/><image href="img/logos/ambitionbox.png" x="518.3333333333334" y="256.0" width="22" height="22" preserveAspectRatio="xMidYMid meet"/><text x="516" y="300" class="g-title g-small">Ratings</text><text x="516" y="313" class="g-sub">public score</text></g><path class="g-wire" d="M438,160 L488,160" marker-end="url(#arrowW)"/><g class="g-node g-out"><rect x="488" y="134" width="132" height="52" rx="6"/><text x="554" y="157" class="g-title">Daily report</text><text x="554" y="171" class="g-sub">shortlist + draft asks</text></g><path class="g-wire" d="M620,160 L650,160" marker-end="url(#arrowW)"/><g class="g-node g-human"><rect x="650" y="138" width="102" height="44" rx="6"/><text x="701" y="157" class="g-title">Me</text><text x="701" y="171" class="g-sub">review, then send</text></g></svg>
+            <svg class="graph graph-tall" viewBox="0 0 320 462" role="img" aria-label="Job search pipeline: LinkedIn, Naukri, Indeed, IIMJobs and Gmail career alerts feed scheduled Claude runs, which check a ledger in Google Drive, the job pages, a referral tracker in Excel and Glassdoor or AmbitionBox ratings, then write a daily report with draft referral asks that I review and send myself."><defs><marker id="arrowN" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="g-arrow"/></marker></defs><path class="g-wire" d="M34,76 C34,100 160,96 160,118" marker-end="url(#arrowN)"/><path class="g-wire" d="M97,76 C97,100 160,96 160,118" marker-end="url(#arrowN)"/><path class="g-wire" d="M160,76 C160,100 160,96 160,118" marker-end="url(#arrowN)"/><path class="g-wire" d="M223,76 C223,100 160,96 160,118" marker-end="url(#arrowN)"/><path class="g-wire" d="M286,76 C286,100 160,96 160,118" marker-end="url(#arrowN)"/><g class="g-node"><rect class="g-tilebg" x="13" y="10" width="42" height="42" rx="7"/><image href="img/logos/linkedin.png" x="20.0" y="17.0" width="28" height="28" preserveAspectRatio="xMidYMid meet"/><text x="34" y="68" class="g-title g-small">LinkedIn</text></g><g class="g-node"><rect class="g-tilebg" x="76" y="10" width="42" height="42" rx="7"/><image href="img/logos/naukri.png" x="83.0" y="17.0" width="28" height="28" preserveAspectRatio="xMidYMid meet"/><text x="97" y="68" class="g-title g-small">Naukri</text></g><g class="g-node"><rect class="g-tilebg" x="139" y="10" width="42" height="42" rx="7"/><svg x="146.0" y="17.0" width="28" height="28" viewBox="440 8 1110 1110"><image href="img/logos/indeed.webp" width="2000" height="1125"/></svg><text x="160" y="68" class="g-title g-small">Indeed</text></g><g class="g-node"><rect class="g-tilebg" x="202" y="10" width="42" height="42" rx="7"/><image href="img/logos/iimjobs.png" x="209.0" y="17.0" width="28" height="28" preserveAspectRatio="xMidYMid meet"/><text x="223" y="68" class="g-title g-small">IIMJobs</text></g><g class="g-node"><rect class="g-tilebg" x="265" y="10" width="42" height="42" rx="7"/><image href="img/logos/gmail.png" x="272.0" y="17.0" width="28" height="28" preserveAspectRatio="xMidYMid meet"/><text x="286" y="68" class="g-title g-small">Gmail</text></g><path class="g-dash" d="M160,196 C160,216 40,214 40,236"/><path class="g-dash" d="M160,196 C160,216 120,214 120,236"/><path class="g-dash" d="M160,196 C160,216 200,214 200,236"/><path class="g-dash" d="M160,196 C160,216 280,214 280,236"/><g class="g-node g-engine"><rect x="80" y="120" width="160" height="76" rx="8"/><image href="img/logos/claude.png" x="149" y="128" width="22" height="22" preserveAspectRatio="xMidYMid meet"/><text x="160" y="168" class="g-title">Claude</text><text x="160" y="183" class="g-sub">scheduled daily runs</text></g><g class="g-tool"><rect class="g-tilebg" x="22.0" y="236" width="36" height="36" rx="7"/><image href="img/logos/drive.png" x="28.0" y="242.0" width="24" height="24" preserveAspectRatio="xMidYMid meet"/><text x="40" y="288" class="g-title g-small">Ledger</text><text x="40" y="300" class="g-sub">skip seen</text></g><g class="g-tool"><rect class="g-tilebg" x="102.0" y="236" width="36" height="36" rx="7"/><text x="120.0" y="259.28" class="g-glyph">¶</text><text x="120" y="288" class="g-title g-small">Job pages</text><text x="120" y="300" class="g-sub">read the JD</text></g><g class="g-tool"><rect class="g-tilebg" x="182.0" y="236" width="36" height="36" rx="7"/><image href="img/logos/excel.png" x="188.0" y="242.0" width="24" height="24" preserveAspectRatio="xMidYMid meet"/><text x="200" y="288" class="g-title g-small">Referrals</text><text x="200" y="300" class="g-sub">my contacts</text></g><g class="g-tool"><rect class="g-tilebg" x="251.0" y="236" width="58" height="36" rx="7"/><image href="img/logos/glassdoor.png" x="254.33333333333334" y="242.0" width="24" height="24" preserveAspectRatio="xMidYMid meet"/><image href="img/logos/ambitionbox.png" x="281.6666666666667" y="242.0" width="24" height="24" preserveAspectRatio="xMidYMid meet"/><text x="280" y="288" class="g-title g-small">Ratings</text><text x="280" y="300" class="g-sub">public score</text></g><path class="g-wire" d="M160,196 L160,328" marker-end="url(#arrowN)"/><g class="g-node g-out"><rect x="60" y="328" width="200" height="50" rx="6"/><text x="160" y="350" class="g-title">Daily report</text><text x="160" y="364" class="g-sub">shortlist + draft asks</text></g><path class="g-wire" d="M160,378 L160,410" marker-end="url(#arrowN)"/><g class="g-node g-human"><rect x="80" y="410" width="160" height="44" rx="6"/><text x="160" y="429" class="g-title">Me</text><text x="160" y="443" class="g-sub">review, then send</text></g></svg>
+            <figcaption>Solid lines are the daily flow. Dashed lines are lookups made along the way. Nothing is sent without me.</figcaption>
+          </figure>
+          <figure class="report">
+            <div class="report-head">
+              <span class="label">Daily scan · 18 Nov 2026</span>
+              <p class="report-big">27 new roles <span>· 12 with a referral contact</span></p>
+              <p class="report-split">Bengaluru 13 · Chennai 7 · Hyderabad 7</p>
+            </div>
+            <ul class="report-rows">
+              <li><b>Program Manager</b><span class="meta">Bengaluru · 3+ yrs · <span class="redact" aria-label="company hidden"></span> · <span class="ref yes">Referral</span></span></li>
+              <li><b>Product Analyst</b><span class="meta">Bengaluru · 2–4 yrs · <span class="redact" aria-label="company hidden"></span> · <span class="ref yes">Referral</span></span></li>
+              <li><b>Analyst, Business Intelligence</b><span class="meta">Bengaluru · 2–4 yrs · <span class="redact" aria-label="company hidden"></span> · <span class="ref yes">Referral</span></span></li>
+              <li><b>Analyst L2</b><span class="meta">Chennai · 1–3 yrs · <span class="redact" aria-label="company hidden"></span> · <span class="ref yes">Referral</span></span></li>
+              <li><b>Strategy &amp; Ops (Founder's Office)</b><span class="meta">Bengaluru · 2–8 yrs · <span class="redact" aria-label="company hidden"></span> · <span class="ref">No contact yet</span></span></li>
+            </ul>
+            <p class="report-foot">45 of 45 searches · 378 listings screened · 73 job descriptions read · dropped 39 on experience, 7 on relevance, 31 already shown</p>
+            <figcaption>A real day's report, top 5 of 27 shown. Company and contact names are hidden.</figcaption>
+          </figure>
         </div>
       </li>
       <li>
