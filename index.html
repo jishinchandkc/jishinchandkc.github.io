@@ -196,7 +196,7 @@ details.full[open] .when-closed { display: none; }
 details.full > .rows { margin-top: 1.25rem; }
 
 /* automation graph */
-.graph-wrap { margin: 0.9rem 0 0; max-width: 40rem; border: 1px solid var(--line); background: var(--panel); padding: 0.8rem 0.6rem 0.6rem; }
+.graph-wrap { box-sizing: border-box; margin: 0.9rem 0 0; max-width: 40rem; border: 1px solid var(--line); background: var(--panel); padding: 0.8rem 0.6rem 0.6rem; }
 .graph { display: block; width: 100%; height: auto; }
 .graph-tall { display: none; max-width: 22rem; margin: 0 auto; }
 .graph .g-node rect { fill: var(--paper); stroke: var(--line); stroke-width: 1.2; }
@@ -226,7 +226,7 @@ details.full > .rows { margin-top: 1.25rem; }
 .graph-wrap figcaption { margin-top: 0.5rem; font-size: 0.82rem; color: var(--muted); }
 
 /* sample daily report */
-.report { margin: 0.9rem 0 0; max-width: 40rem; border: 1px solid var(--line); background: var(--panel); }
+.report { box-sizing: border-box; margin: 0.9rem 0 0; max-width: 40rem; border: 1px solid var(--line); background: var(--panel); }
 .report-head { padding: 0.8rem 0.9rem 0.7rem; border-bottom: 1px solid var(--line); }
 .report-head .label { display: block; padding: 0; }
 .more .report-big { margin: 0.25rem 0 0; font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; line-height: 1.2; }
