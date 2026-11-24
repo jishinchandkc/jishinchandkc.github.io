@@ -225,8 +225,11 @@ a.prof:hover{border-color:var(--accent)}
 @media (prefers-reduced-motion:no-preference){#tip,#toast{transition:opacity .15s}.track i{transition:width .3s}}
 .demo-chip{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:99px;background:var(--warm);color:#fff;white-space:nowrap}
 .demo-note{margin:12px 2px 0;font-size:13.5px;color:var(--muted);max-width:80ch}
+.framed .demo-note{display:none}
+.framed body{padding-block:8px 16px;padding-left:10px;padding-right:10px}
 </style>
 
+<script>try{if(window.self!==window.top)document.documentElement.classList.add("framed")}catch(e){document.documentElement.classList.add("framed")}</script>
 <div id="app">
   <header class="band">
     <div class="band-top">
