@@ -1,0 +1,770 @@
+<!doctype html><html lang="en"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Job Search Dashboard · Demo</title>
+<meta name="description" content="Demo of my job search dashboard, filled with made-up sample data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap">
+<style>
+/* Layout: a deep-teal command band on top, then one question per card. Today = what to do next; Pipeline = what is live; What's working = where interviews come from. */
+:root{
+  --bg:#EDF2EF; --panel:#FFFFFF; --raise:#F4F8F6; --ink:#13201B; --ink2:#43534C; --muted:#64746D; --line:#DAE3DE;
+  --accent:#0E6B5E; --accent-soft:#DCEFEA; --on-accent:#FFFFFF; --warm:#B9471A; --warm-soft:#FBE6DC;
+  --band1:#0A332D; --band2:#11655A; --on-band:#F1F7F4; --on-band2:#B8D6CD;
+  --s-int:#2a78d6; --s-act:#1baf7a; --s-wait:#eda100; --s-quiet:#8f8c82; --s-rej:#d03b3b; --s-wd:#c9c6bd;
+  --h0:#E7EEEA; --h1:#9ec5f4; --h2:#5598e7; --h3:#256abf; --h4:#104281;
+  --good:#0a7d0a; --crit:#c23434; --crit-soft:#FBE3E1;
+  --display:"Bricolage Grotesque","Inter",system-ui,sans-serif; --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --shadow:0 1px 2px rgba(16,40,34,.06),0 8px 24px rgba(16,40,34,.07);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0B1411; --panel:#13201C; --raise:#192823; --ink:#E6EFEA; --ink2:#BACAC2; --muted:#93A69D; --line:#253630;
+  --accent:#4CC2AE; --accent-soft:#16352F; --on-accent:#0B1411; --warm:#F08A5D; --warm-soft:#3A2419;
+  --band1:#082520; --band2:#0E4A41; --on-band:#EAF4F0; --on-band2:#9CC4B8;
+  --s-int:#3987e5; --s-act:#199e70; --s-wait:#c98500; --s-quiet:#b3b0a8; --s-rej:#e05252; --s-wd:#5c5a55;
+  --h0:#1E2E29; --h1:#184f95; --h2:#256abf; --h3:#3987e5; --h4:#86b6ef;
+  --good:#3fc33f; --crit:#ff8a80; --crit-soft:#3B1B19;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B1411; --panel:#13201C; --raise:#192823; --ink:#E6EFEA; --ink2:#BACAC2; --muted:#93A69D; --line:#253630;
+  --accent:#4CC2AE; --accent-soft:#16352F; --on-accent:#0B1411; --warm:#F08A5D; --warm-soft:#3A2419;
+  --band1:#082520; --band2:#0E4A41; --on-band:#EAF4F0; --on-band2:#9CC4B8;
+  --s-int:#3987e5; --s-act:#199e70; --s-wait:#c98500; --s-quiet:#b3b0a8; --s-rej:#e05252; --s-wd:#5c5a55;
+  --h0:#1E2E29; --h1:#184f95; --h2:#256abf; --h3:#3987e5; --h4:#86b6ef;
+  --good:#3fc33f; --crit:#ff8a80; --crit-soft:#3B1B19;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 40px}
+#app{max-width:1240px;margin:0 auto;min-width:0}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+button,select,input{font:inherit}
+button{font-size:14px;font-weight:600;padding:7px 13px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;min-height:36px}
+button:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+button.sm{padding:4px 10px;font-size:13px;min-height:30px}
+button.ghost{background:transparent}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* command band */
+.band{background:linear-gradient(135deg,var(--band1),var(--band2));color:var(--on-band);border-radius:22px;padding:16px 18px 14px;display:grid;gap:12px;box-shadow:var(--shadow)}
+.band-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.brand{display:flex;align-items:baseline;gap:10px;min-width:0}
+.brand h1{font-size:24px;font-weight:700}
+.asof{font-size:13px;color:var(--on-band2)}
+.band-top .sp{flex:1}
+.band button{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.22);color:var(--on-band)}
+.band button:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.4)}
+.band button.primary{background:var(--on-band);color:var(--band1);border-color:var(--on-band)}
+.brand{flex-wrap:wrap}.brand h1{white-space:nowrap}
+@media (max-width:560px){.brand{flex-basis:100%;flex-direction:column;gap:2px}.band-top .sp{display:none}.band-top button{padding:5px 10px;font-size:13px;min-height:32px}}
+.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;background:rgba(0,0,0,.18);padding:4px;border-radius:12px;max-width:520px}
+.tabs a{display:block;text-align:center;padding:8px 6px;border-radius:9px;color:var(--on-band2);text-decoration:none;font-weight:600;font-size:14px;white-space:nowrap}
+.tabs a[aria-current="page"]{background:var(--on-band);color:var(--band1)}
+.tabs a:hover:not([aria-current="page"]){color:var(--on-band)}
+
+main{margin-top:18px;display:grid;gap:16px;min-width:0}
+.grid{display:grid;gap:16px;min-width:0}
+.g-today{grid-template-columns:minmax(0,1.65fr) minmax(0,1fr)}
+.g-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g-pipe{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
+.g-kpi{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:860px){.g-today,.g-2,.g-pipe{grid-template-columns:minmax(0,1fr)}.g-kpi{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow);min-width:0;display:flex;flex-direction:column;gap:12px}
+.card-h{display:flex;align-items:flex-start;gap:10px;justify-content:space-between}
+.card-h > div{min-width:0}
+.card h2{font-size:19px;font-weight:700}
+.card .q{font-size:13.5px;color:var(--muted);margin:3px 0 0;max-width:62ch}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.foot{font-size:12.5px;color:var(--muted);margin:0}
+.empty{color:var(--muted);font-size:14px;padding:6px 0}
+
+/* today hero */
+.today{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px 28px;align-items:center}
+.today .date{font-size:14px;color:var(--muted);font-weight:600}
+.today .big{font-family:var(--display);font-size:clamp(30px,5vw,44px);font-weight:700;line-height:1.05;margin:4px 0 10px}
+.mday{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:99px;font-weight:600;font-size:14px;border:1px solid var(--line);background:var(--raise)}
+.mday i{width:10px;height:10px;border-radius:50%;background:var(--muted);display:block}
+.mday.ok i{background:var(--good)}.mday.full{border-color:var(--good)}.mday.full i{background:var(--good)}
+.mday.todo{border-color:var(--warm);background:var(--warm-soft);color:var(--warm)}.mday.todo i{background:var(--warm)}
+.heat{display:grid;grid-template-columns:repeat(7,22px);gap:4px}
+.heat .dh{font-size:11px;color:var(--muted);text-align:center}
+.heat .c{width:22px;height:22px;border-radius:5px;background:var(--h0);cursor:pointer;border:0;padding:0;min-height:0}
+.heat .c.l1{background:var(--h1)}.heat .c.l2{background:var(--h2)}.heat .c.l3{background:var(--h3)}.heat .c.l4{background:var(--h4)}
+.heat .c.tdy{outline:2px solid var(--ink);outline-offset:1px}
+.heat .c.fut{background:transparent;border:1px dashed var(--line);cursor:default}
+.heatwrap{display:grid;gap:6px;justify-items:start}
+.hkey{display:flex;gap:6px;align-items:center;font-size:11.5px;color:var(--muted)}
+.hkey i{width:12px;height:12px;border-radius:3px;display:block}
+@media (max-width:560px){.today{grid-template-columns:minmax(0,1fr)}}
+
+/* do-next list */
+.grp{display:grid;gap:2px}
+.grp + .grp{margin-top:6px}
+.grp-h{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);padding:2px 0 6px}
+.grp-h b{font-family:var(--mono);font-size:12px;background:var(--raise);border:1px solid var(--line);border-radius:99px;padding:0 7px;color:var(--ink2);letter-spacing:0}
+.item{display:grid;grid-template-columns:4px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.item:first-of-type{border-top:0}
+.item .stripe{align-self:stretch;border-radius:2px;background:var(--line)}
+.item.crit .stripe{background:var(--crit)}.item.warn .stripe{background:var(--warm)}.item.int .stripe{background:var(--s-int)}.item.ask .stripe{background:var(--accent)}
+.item .t1{font-weight:700;font-size:15px;overflow-wrap:anywhere}
+.item .t2{font-size:13.5px;color:var(--ink2);overflow-wrap:anywhere}
+.item .t3{font-size:12.5px;color:var(--muted);margin-top:2px;overflow-wrap:anywhere}
+.item .acts{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.late{color:var(--crit);font-weight:700}
+a.prof{font-size:13px;font-weight:600;text-decoration:none;border:1px solid var(--line);padding:4px 10px;border-radius:9px;color:var(--accent);white-space:nowrap;min-height:30px;display:inline-flex;align-items:center}
+a.prof:hover{border-color:var(--accent)}
+@media (max-width:560px){.item{grid-template-columns:4px minmax(0,1fr)}.item .acts{grid-column:2;justify-content:flex-start}}
+
+/* chips */
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:2px 9px;border-radius:99px;background:var(--raise);border:1px solid var(--line);color:var(--ink2);white-space:nowrap;max-width:100%}
+.chip i{width:8px;height:8px;border-radius:50%;display:block;flex:none}
+.chip.live{border-color:var(--s-int)}.chip.quiet{color:var(--muted)}
+
+/* latest list */
+.mini{display:grid;gap:0}
+.mrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:8px 0;border-top:1px solid var(--line);align-items:center}
+.mrow:first-child{border-top:0}
+.mrow b{font-size:14.5px;display:block;overflow-wrap:anywhere}
+.mrow span{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+
+/* stacked stand bar */
+.stand{display:flex;height:22px;gap:2px;border-radius:6px;overflow:hidden}
+.stand button{border:0;border-radius:0;padding:0;min-height:0;height:100%;cursor:pointer}
+.stand button:first-child{border-radius:6px 0 0 6px}.stand button:last-child{border-radius:0 6px 6px 0}
+.stand button:hover{filter:brightness(1.08)}
+.slegend{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:4px 12px}
+.sl{display:grid;grid-template-columns:12px minmax(0,1fr) auto;gap:8px;align-items:center;padding:6px 8px;border-radius:10px;border:0;background:transparent;text-align:left;min-height:0;font-weight:500}
+.sl:hover{background:var(--raise)}
+.sl i{width:12px;height:12px;border-radius:3px;display:block}
+.sl span{font-size:13.5px;color:var(--ink2)}
+.sl b{font-family:var(--mono);font-size:14px}
+.sl small{display:block;font-size:12px;color:var(--muted);font-family:var(--sans);font-weight:500;text-align:right}
+
+/* bars (rates) */
+.rates{display:grid;gap:4px}
+.rhead,.rrow{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:center}
+.rhead{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:0 6px 4px}
+.rrow{padding:7px 6px;border-radius:10px;cursor:pointer}
+.rrow:hover,.rrow:focus-visible{background:var(--raise)}
+.rrow .nm{font-weight:600;font-size:14px;overflow-wrap:anywhere}
+.rrow .nm small{display:block;font-weight:500;color:var(--muted);font-size:12px}
+.mbar{display:grid;gap:3px}
+.track{height:8px;background:var(--h0);border-radius:4px;overflow:hidden}
+.track i{display:block;height:100%;border-radius:4px}
+.mbar .v{font-size:12.5px;color:var(--ink2)}
+.mbar .v b{font-family:var(--mono);font-size:13px;color:var(--ink)}
+
+/* columns chart */
+.cols{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;align-items:end;height:170px;padding-top:22px;border-bottom:1px solid var(--line)}
+.col{display:flex;flex-direction:column;justify-content:flex-end;height:100%;position:relative;cursor:pointer;border:0;background:transparent;padding:0;min-height:0;border-radius:6px}
+.col:hover{background:var(--raise)}
+.col i{display:block;background:var(--accent);border-radius:4px 4px 0 0;min-height:2px;margin:0 18%}
+.col .lbl{position:absolute;left:0;right:0;text-align:center;font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--ink2)}
+.collab{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;font-size:12px;color:var(--muted);text-align:center;margin-top:6px}
+.hist5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.hist5 + .collab{grid-template-columns:repeat(5,minmax(0,1fr))}
+
+/* kpi tiles */
+.kpi{gap:4px}
+.kpi .v{font-family:var(--display);font-size:34px;font-weight:700;line-height:1.05}
+.kpi .v small{font-family:var(--sans);font-size:14px;font-weight:500;color:var(--muted);margin-left:4px}
+.kpi .l{font-size:13.5px;color:var(--ink2);font-weight:600}
+.kpi .s{font-size:12.5px;color:var(--muted)}
+
+/* company list */
+.corow{display:grid;grid-template-columns:minmax(0,1fr) 120px 34px;gap:12px;align-items:center;padding:7px 6px;border-radius:10px;cursor:pointer}
+.corow:hover{background:var(--raise)}
+.corow b{font-size:14px;overflow-wrap:anywhere}
+.minis{display:flex;height:10px;gap:2px;border-radius:3px;overflow:hidden}
+.minis i{display:block;height:100%}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(6,14,12,.5);z-index:20}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(620px,100%);background:var(--panel);z-index:21;display:flex;flex-direction:column;box-shadow:-12px 0 40px rgba(0,0,0,.25);
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px)}
+.dr-h{padding:16px 18px 10px;display:grid;gap:10px;border-bottom:1px solid var(--line)}
+.dr-h .top{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.dr-h h3{font-size:19px}
+.dr-h .sub{font-size:13px;color:var(--muted)}
+.dr-tools{display:flex;gap:8px;flex-wrap:wrap}
+.dr-tools input,.dr-tools select{padding:7px 10px;border:1px solid var(--line);border-radius:9px;background:var(--raise);color:var(--ink);font-size:14px;min-height:36px}
+.dr-tools input{flex:1 1 200px;min-width:0}
+.dr-body{overflow-y:auto;padding:4px 18px 18px;flex:1}
+.arow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding:11px 0;border-top:1px solid var(--line)}
+.arow:first-child{border-top:0}
+.arow b{font-size:14.5px;overflow-wrap:anywhere}
+.arow .r{font-size:13px;color:var(--ink2);overflow-wrap:anywhere;grid-column:1}
+.arow .m{font-size:12.5px;color:var(--muted);grid-column:1/-1;display:flex;gap:6px 12px;flex-wrap:wrap;align-items:center}
+.arow .idle{font-family:var(--mono);font-size:13px;text-align:right;color:var(--ink2);grid-row:1/3;grid-column:2}
+.arow .idle small{display:block;font-family:var(--sans);font-size:11.5px;color:var(--muted)}
+
+/* dialogs */
+.dlg-wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:16px;z-index:22}
+.dlg{background:var(--panel);border:1px solid var(--line);border-radius:16px;max-width:680px;width:100%;max-height:88vh;overflow:auto;padding:18px 20px;box-shadow:var(--shadow);position:relative}
+.dlg h3{font-size:19px;margin-bottom:8px}
+.dlg p,.dlg li{font-size:14px;color:var(--ink2);max-width:68ch}
+.dlg ul{padding-left:18px;margin:6px 0}
+.dlg label{display:block;font-size:13.5px;font-weight:600;margin:12px 0 4px}
+.dlg input[type=text],.dlg input[type=date]{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:var(--raise);color:var(--ink)}
+.dlg input[type=file]{width:100%;font-size:14px}
+.row{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
+.msg{font-size:13.5px;margin-top:10px}.err{color:var(--crit)}
+.dtable{width:100%;border-collapse:collapse;font-size:13.5px;margin:6px 0 10px}
+.dtable th,.dtable td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.dtable th{color:var(--muted);font-weight:600}
+.twrap{overflow-x:auto}
+
+#tip{position:fixed;z-index:40;background:var(--ink);color:var(--bg);padding:6px 10px;border-radius:8px;font-size:13px;pointer-events:none;opacity:0;max-width:280px}
+#tip.show{opacity:1}
+#toast{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 14px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;z-index:45}
+#toast.show{opacity:1}#toast.bad{background:var(--crit);color:var(--panel)}
+.state{padding:28px;text-align:center}
+.state h2{font-size:22px;margin-bottom:6px}
+@media (prefers-reduced-motion:no-preference){#tip,#toast{transition:opacity .15s}.track i{transition:width .3s}}
+.demo-chip{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:99px;background:var(--warm);color:#fff;white-space:nowrap}
+.demo-note{margin:12px 2px 0;font-size:13.5px;color:var(--muted);max-width:80ch}
+</style>
+
+<div id="app">
+  <header class="band">
+    <div class="band-top">
+      <div class="brand"><h1>Job Search Dashboard</h1><span class="demo-chip">Demo · sample data</span><span id="asof" class="asof">Loading…</span></div>
+      <span class="sp"></span>
+      <button id="allbtn" type="button">Browse all</button>
+      <button id="defbtn" type="button">How it's counted</button>
+    </div>
+    <nav class="tabs" aria-label="Sections">
+      <a href="#today" data-v="today">Today</a>
+      <a href="#pipeline" data-v="pipeline">Pipeline</a>
+      <a href="#working" data-v="working">What's working</a>
+    </nav>
+  </header>
+  <p class="demo-note">This is a working demo of the dashboard I use for my own job search. Every company, contact and number here is made-up sample data. <a href="../">Back to the portfolio</a></p>
+  <main id="main"></main>
+</div>
+<div id="overlay"></div>
+<div id="tip" role="tooltip"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+'use strict';
+/* ---------- matching rules (unchanged from the previous version) ---------- */
+var GEN=['american','state','bank','wells','johnson','royal','lam','thermo','tata','hindustan','indian','axis','bristol','new','first','general','national','deutsche','standard','sales','the','de','jp','bnp','big','best','air','blue','delta','north','south','east','west','united','international','global','digital','smart','pro','max','one','sun','star','green'];
+var GENSET={};GEN.forEach(function(g){GENSET[g]=1});
+function ckey(name){
+  var t=String(name||'').toLowerCase().replace(/&/g,' & ').replace(/[^a-z0-9& ]+/g,' ').split(/\s+/).filter(function(x){return x&&x!=='the'});
+  if(!t.length)return '';
+  if(GENSET[t[0]]&&t.length>1)return t[0]+' '+t[1];
+  return t[0];
+}
+function stageOf(s){
+  s=String(s||'');
+  if(/^Interview/.test(s))return 'Interview';
+  if(/^(Rejected|Likely Rejected)/.test(s))return 'Rejected';
+  if(/^Withdrawn/.test(s))return 'Withdrawn';
+  if(s==='Applied'||s==='Applied - Resume Submitted'||s==='Applied - possibly incomplete')return 'Applied';
+  return 'Activity';
+}
+function sourceOf(p){
+  p=String(p||'').toLowerCase();
+  if(p.indexOf('linkedin')>-1)return 'LinkedIn';
+  if(p.indexOf('naukri')>-1)return 'Naukri';
+  if(p.indexOf('iimjobs')>-1)return 'iimjobs';
+  if(p.indexOf('indeed')>-1)return 'Indeed';
+  if(p.indexOf('amazon')>-1)return 'Amazon Jobs';
+  return 'Company sites & other';
+}
+var FAMS=[
+ ['Role not specified',/role not (named|specified|stated)|unspecified|hiring challenge|talent community|account created|candidate account|earlier role|registration/i],
+ ['Founder’s office / CoS',/founder|chief of staff|ceo.?s office|ceo office|\bcos\b|associate, ceo|to ceo/i],
+ ['Program mgmt',/program|project|pmo/i],
+ ['Product mgmt',/product (manager|management|specialist|owner|lifecycle)|manager - product|\bapm\b|associate product|product manager/i],
+ ['Data analyst',/data |data$|analytics|\bbi\b|insight|intelligence/i],
+ ['BA / product analyst',/business analy|product analyst|\bba\b|business & product|techno-functional|business systems/i],
+ ['Supply chain & procurement',/logistics|supply|inventory|procurement|sourcing|parts /i],
+ ['Strategy / ops',/strateg|operations|\bops\b|consult|growth|initiatives|business planning|transformation|excellence|performance|change management|process|effectiveness|resource|planning|delivery|revenue|value creation|learning business|hrbp/i],
+ ['Marketing / brand',/marketing|brand|advertising|ad sales|\bgtm\b|go-to-market|category|merchandis/i],
+ ['Sales / BD / accounts',/sales|business development|\bbde\b|account manager|relationship|channel|enterprise|key account|agency|unit manager|cluster manager|acquisition|partnership|football/i],
+ ['Finance / risk',/financ|fp&a|treasury|accounts|accounting|risk|compliance|credit|investment|asset management|audit|tax|transfer pricing|governance|settlement|wealth|equity|capital markets|share plans|immigration|contracts|enrollment|recruit/i],
+ ['Analyst (general)',/analyst/i],
+ ['Generalist / trainee',/trainee|fresher|^associate|^manager|^assistant manager|^business (associate|manager)|junior|department manager|\bmanager\b|\bassociate\b|acceleration|capability|executive|specialist|bid manager|^b\.tech/i]
+];
+function familyOf(r){var t=String(r||'');for(var i=0;i<FAMS.length;i++)if(FAMS[i][1].test(t))return FAMS[i][0];return 'Role not specified'}
+var ISO=/^\d{4}-\d{2}-\d{2}$/;
+function dayNum(iso){return Date.UTC(+iso.slice(0,4),+iso.slice(5,7)-1,+iso.slice(8,10))/86400000}
+function todayIso(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function isoOf(n){return new Date(n*86400000).toISOString().slice(0,10)}
+var MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+function fmtDate(n){var d=new Date(n*86400000);return d.getUTCDate()+' '+MONTHS[d.getUTCMonth()]}
+function fmtIso(s){return fmtDate(dayNum(s))}
+function fmtLong(n){var d=new Date(n*86400000);return DAYS[d.getUTCDay()]+' '+fmtDate(n)}
+var MIN_N=10, CHASE_IDLE=14, QUIET=14, NOREPLY=30;
+
+/* the five buckets every chart shares, in one fixed order and colour */
+var BUCKETS=[
+  {k:'int',l:'Interview stage',c:'var(--s-int)'},
+  {k:'act',l:'Some activity',c:'var(--s-act)'},
+  {k:'wait',l:'Waiting, under 30 days',c:'var(--s-wait)'},
+  {k:'quiet',l:'No reply, 30+ days',c:'var(--s-quiet)'},
+  {k:'rej',l:'Rejected',c:'var(--s-rej)'}
+];
+var BMAP={};BUCKETS.forEach(function(b){BMAP[b.k]=b});
+BMAP.wd={k:'wd',l:'Withdrawn',c:'var(--s-wd)'};BMAP.nodate={k:'nodate',l:'Waiting, no date',c:'var(--s-wd)'};
+
+/* ---------- state ---------- */
+var S={actions:{asked:{},other:{},skip:{}},deadlines:[],apps:null,conns:null,meta:null,err:null,loading:true,db:null,loadedAt:null};
+var VIEW='today',MAIN=document.getElementById('main'),D=null;
+
+/* ---------- derive ---------- */
+function derive(){
+  var apps=S.apps||[],conns=S.conns||[],today=todayIso(),tn=dayNum(today);
+  var rows=apps.map(function(a,ix){
+    var r={ix:ix,co:a[0],role:a[1],src:a[2],da:String(a[3]||''),st:a[4],la:String(a[5]||'')};
+    r.stage=stageOf(r.st);r.source=sourceOf(r.src);r.fam=familyOf(r.role);r.key=ckey(r.co);
+    var AP=/^~\d{4}-\d{2}-\d{2}$/;if(AP.test(r.da)){r.da=r.da.slice(1);r.daApprox=true}if(AP.test(r.la)){r.la=r.la.slice(1);r.laApprox=true}
+    r.daOk=ISO.test(r.da);r.laOk=ISO.test(r.la);
+    r.idle=r.laOk?Math.max(0,Math.round(tn-dayNum(r.la))):null;
+    r.age=r.daOk?Math.round(tn-dayNum(r.da)):null;
+    r.heard=(r.stage==='Activity'||r.stage==='Interview'||r.stage==='Rejected');
+    if(r.stage==='Interview')r.b='int';else if(r.stage==='Activity')r.b='act';else if(r.stage==='Rejected')r.b='rej';else if(r.stage==='Withdrawn')r.b='wd';
+    else r.b=(r.idle==null?'nodate':(r.idle<NOREPLY?'wait':'quiet'));
+    return r});
+  var byKey={};
+  conns.forEach(function(c){var k=ckey(c[0]);(byKey[k]=byKey[k]||[]).push({co:c[0],name:c[1],pos:c[2],url:c[3],ask:c[4],on:String(c[5]||'')})});
+  var asOf=null;rows.forEach(function(r){if(r.laOk&&(!asOf||r.la>asOf))asOf=r.la});
+  var d={rows:rows,byKey:byKey,today:today,tn:tn,asOf:asOf,total:rows.length};
+  d.bc={};rows.forEach(function(r){d.bc[r.b]=(d.bc[r.b]||0)+1});
+  d.heard=rows.filter(function(r){return r.heard}).length;
+  d.interviews=rows.filter(function(r){return r.stage==='Interview'}).map(function(r){r.live=r.idle!=null&&r.idle<QUIET;return r})
+    .sort(function(a,b){return (b.live-a.live)||((a.idle==null)-(b.idle==null))||((a.idle||0)-(b.idle||0))});
+  // chase candidates (same rule as before)
+  var ch=[];
+  rows.forEach(function(r){
+    if((r.stage!=='Applied'&&r.stage!=='Activity')||r.idle==null||r.idle<CHASE_IDLE)return;
+    var cs=byKey[r.key];if(!cs)return;
+    if(S.actions.other[r.key]||S.actions.skip[r.key])return;
+    if(cs.some(function(c){return c.ask==='Yes'||S.actions.asked[c.url]}))return;
+    var open=cs.slice().sort(function(a,b){return a.on<b.on?1:a.on>b.on?-1:0});
+    ch.push({r:r,c:open[0],more:open.length-1});
+  });
+  ch.sort(function(a,b){return a.r.idle-b.r.idle||b.more-a.more});
+  d.chase=ch;
+  // daily activity, last 28 days ending today (exact dates only)
+  var dowToday=(new Date(tn*86400000).getUTCDay()+6)%7, gridStart=tn-dowToday-21;
+  d.heat=[];for(var i=0;i<28;i++)d.heat.push({n:gridStart+i,a:0,fut:gridStart+i>tn});
+  rows.forEach(function(r){if(!r.daOk||r.daApprox)return;var k=dayNum(r.da)-gridStart;if(k>=0&&k<28)d.heat[k].a++});
+  var last28=[];for(var j=27;j>=0;j--)last28.push(tn-j);
+  var cnt={};rows.forEach(function(r){if(r.daOk&&!r.daApprox)cnt[r.da]=(cnt[r.da]||0)+1});
+  d.active28=last28.filter(function(n){return cnt[isoOf(n)]}).length;
+  d.apps28=last28.reduce(function(s,n){return s+(cnt[isoOf(n)]||0)},0);
+  d.todayCount=cnt[today]||0;
+  // weeks (Mon start), last 8
+  var mon=tn-dowToday;d.weeks=[];for(var w=7;w>=0;w--)d.weeks.push({start:mon-7*w,a:0,i:0,h:0});
+  rows.forEach(function(r){if(!r.daOk)return;var idx=Math.floor((dayNum(r.da)-(mon-49))/7);if(idx<0||idx>7)return;var o=d.weeks[idx];o.a++;if(r.heard)o.h++;if(r.stage==='Interview')o.i++});
+  // rates
+  function rate(fn){var m={};rows.forEach(function(r){var k=fn(r);var o=m[k]||(m[k]={k:k,n:0,h:0,i:0});o.n++;if(r.heard)o.h++;if(r.stage==='Interview')o.i++});
+    var list=Object.keys(m).map(function(k){return m[k]});
+    return {shown:list.filter(function(o){return o.n>=MIN_N}).sort(function(a,b){return (b.i/b.n-a.i/a.n)||(b.h/b.n-a.h/a.n)||(b.n-a.n)}),hidden:list.filter(function(o){return o.n<MIN_N})}}
+  d.bySource=rate(function(r){return r.source});
+  d.byFam=rate(function(r){return r.fam});
+  // waiting age (Applied stage, by days since applied)
+  var bands=[['0–7 days',0,7],['8–14',8,14],['15–29',15,29],['30–59',30,59],['60+',60,1e9]];
+  d.waitAges=bands.map(function(b){return {l:b[0],lo:b[1],hi:b[2],n:rows.filter(function(r){return r.stage==='Applied'&&r.age!=null&&r.age>=b[1]&&r.age<=b[2]}).length}});
+  d.waitNoDate=rows.filter(function(r){return r.stage==='Applied'&&r.age==null}).length;
+  // days to rejection: exact dates only
+  var gaps=[];rows.forEach(function(r){if(r.stage==='Rejected'&&r.daOk&&!r.daApprox&&r.laOk&&!r.laApprox){var g=dayNum(r.la)-dayNum(r.da);if(g>=0)gaps.push(g)}});
+  gaps.sort(function(a,b){return a-b});
+  d.rejGap={n:gaps.length,median:gaps.length?(gaps.length%2?gaps[(gaps.length-1)/2]:(gaps[gaps.length/2-1]+gaps[gaps.length/2])/2):null};
+  // referral coverage, last 30 days
+  var recent=rows.filter(function(r){return r.age!=null&&r.age>=0&&r.age<=30});
+  var withC=recent.filter(function(r){return byKey[r.key]&&byKey[r.key].length});
+  d.ref={n:recent.length,w:withC.length};
+  // companies applied to most
+  var cm={};rows.forEach(function(r){if(/^iimjobs listing/i.test(r.co))return;var o=cm[r.co]||(cm[r.co]={co:r.co,n:0,c:{}});o.n++;o.c[r.b]=(o.c[r.b]||0)+1});
+  d.topCos=Object.keys(cm).map(function(k){return cm[k]}).filter(function(o){return o.n>=3}).sort(function(a,b){return b.n-a.n}).slice(0,8);
+  d.repeatCos=Object.keys(cm).filter(function(k){return cm[k].n>1}).length;
+  // deadlines
+  d.dl=(S.deadlines||[]).map(function(x,i){var due=ISO.test(String(x[2]||''))?x[2]:'';return {i:i,done:x[3]==='done',co:x[0],what:x[1],due:due,left:due?Math.round(dayNum(due)-tn):null}}).filter(function(x){return !x.done})
+    .sort(function(a,b){return (a.left==null)-(b.left==null)||(a.left||0)-(b.left||0)});
+  d.latestDay=null;rows.forEach(function(r){if(r.daOk&&!r.daApprox&&r.da<=today&&(!d.latestDay||r.da>d.latestDay))d.latestDay=r.da});
+  // referrals: tracker rows whose Source names a referral, plus asks recorded here or in the referral file
+  var refs=[];
+  rows.forEach(function(r){if(!/referr/i.test(r.src))return;
+    var m=String(r.src).match(/referral (?:by|via) ([^)|,]+)/i)||String(r.src).match(/referral \(([^)]+)\)/i);
+    var nm=m?m[1].replace(/\s*\(.*$/,'').replace(/\s+via\s+\w+$/i,'').trim():'';if(/^(successfactors|turbohire|sap|workday)$/i.test(nm)||/not named|unknown/i.test(nm))nm='';
+    refs.push({name:nm,co:r.co,key:r.key,role:r.role,r:r,src:'tracker'})});
+  var seen={};refs.forEach(function(x){if(x.name)seen[x.key+'|'+x.name.split(' ')[0].toLowerCase()]=1});
+  function addAsk(name,co,key,date,from){var k=key+'|'+String(name||'').split(' ')[0].toLowerCase();if(name&&seen[k])return;seen[k]=1;refs.push({name:name,co:co,key:key,date:date,src:from})}
+  Object.keys(byKey).forEach(function(k){byKey[k].forEach(function(c){if(c.ask==='Yes')addAsk(c.name,c.co,k,null,'file');if(S.actions.asked[c.url])addAsk(c.name,c.co,k,S.actions.asked[c.url],'here')})});
+  Object.keys(S.actions.other||{}).forEach(function(k){var nm=String((S.actions.names||{})[k]||'').split(',')[0];var app=rows.filter(function(r){return r.key===k})[0];addAsk(nm,app?app.co:k,k,S.actions.other[k],'here')});
+  d.refs=refs;d.refApps=refs.filter(function(x){return x.r});
+  d.dataQuality={noDa:rows.filter(function(r){return !r.daOk}).length,approx:rows.filter(function(r){return r.daApprox}).length,noLa:rows.filter(function(r){return !r.laOk}).length};
+  return d;
+}
+
+/* ---------- helpers ---------- */
+function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+function add(p){for(var i=1;i<arguments.length;i++){var c=arguments[i];if(c)p.appendChild(typeof c==='string'?document.createTextNode(c):c)}return p}
+function pct(a,b){return b?Math.round(100*a/b)+'%':'–'}
+function plural(n,w,ws){return n+' '+(n===1?w:(ws||w+'s'))}
+function card(title,question,eyebrow){var c=el('section','card');var h=el('div','card-h');var t=el('div');if(eyebrow)t.appendChild(el('div','eyebrow',eyebrow));t.appendChild(el('h2',null,title));if(question)t.appendChild(el('p','q',question));h.appendChild(t);c.appendChild(h);c.head=h;return c}
+function wilson(s,n){if(!n)return [0,0];var z=1.96,p=s/n,dn=1+z*z/n,c=(p+z*z/(2*n))/dn,h=z*Math.sqrt(p*(1-p)/n+z*z/(4*n*n))/dn;return [Math.max(0,c-h),Math.min(1,c+h)]}
+function ci(s,n){var w=wilson(s,n);return Math.round(100*w[0])+'–'+Math.round(100*w[1])+'%'}
+function clickable(n,fn){if(n.tagName!=='BUTTON'){n.tabIndex=0;n.setAttribute('role','button')}n.addEventListener('click',fn);n.addEventListener('keydown',function(e){if(n.tagName!=='BUTTON'&&(e.key==='Enter'||e.key===' ')){e.preventDefault();fn()}})}
+function showTip(t,x,y){var e=document.getElementById('tip');e.textContent=t;e.className='show';var w=e.offsetWidth;e.style.left=Math.max(8,Math.min(window.innerWidth-w-8,x+12))+'px';e.style.top=Math.max(8,y-44)+'px'}
+function hideTip(){document.getElementById('tip').className=''}
+function tip(n,fn){n.addEventListener('mousemove',function(e){showTip(fn(),e.clientX,e.clientY)});n.addEventListener('mouseleave',hideTip);n.addEventListener('focus',function(){var r=n.getBoundingClientRect();showTip(fn(),r.left+r.width/2,r.top)});n.addEventListener('blur',hideTip)}
+function toast(t,bad){var e=document.getElementById('toast');e.textContent=t;e.className=bad?'bad show':'show';clearTimeout(toast.t);toast.t=setTimeout(function(){e.className=''},3200)}
+function profLink(c){var a=el('a','prof','Profile ↗');var u=String(c.url||'');if(/^https:\/\//.test(u)){a.href=u;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Open LinkedIn profile of '+c.name);return a}return null}
+function stageChip(r){var b=BMAP[r.b];var c=el('span','chip');var i=el('i');i.style.background=b.c;c.appendChild(i);c.appendChild(document.createTextNode(r.st||b.l));c.title=b.l;return c}
+
+/* ---------- persistence ---------- */
+function saveDoc(id,data){
+  if(!S.db){toast('Demo: changes stay on screen and are not saved.');return Promise.resolve(false)}
+  return S.db.doc('tracker/'+id).set(data).then(function(){toast('Saved');return true}).catch(function(){toast('Could not save. The change is on screen only.',true);return false});
+}
+function rerender(){var y=window.scrollY;render();window.scrollTo(0,y)}
+function markAsked(url){S.actions=JSON.parse(JSON.stringify(S.actions));S.actions.asked[url]=todayIso();rerender();saveDoc('actions',S.actions)}
+function skipCo(key){S.actions=JSON.parse(JSON.stringify(S.actions));S.actions.skip[key]=todayIso();rerender();saveDoc('actions',S.actions)}
+function markDone(i){S.deadlines[i]=S.deadlines[i].slice(0,3).concat(['done']);rerender();saveDoc('deadlines',{rows:S.deadlines})}
+
+/* ---------- TODAY ---------- */
+var ASKS_SHOWN=5;
+function todayHero(d){
+  var c=el('section','card today');
+  var l=el('div');
+  l.appendChild(el('div','date',fmtLong(d.tn)));
+  l.appendChild(el('div','big',plural(d.todayCount,'application')+' sent today'));
+  var st=d.todayCount>=3?['full','Full day: 3 or more sent']:d.todayCount>=1?['ok','Minimum day met: 1 sent']:['todo','Minimum day not met yet: send 1'];
+  var m=el('span','mday '+st[0]);m.appendChild(el('i'));m.appendChild(document.createTextNode(st[1]));l.appendChild(m);
+  var p=el('p','foot','Applied on '+d.active28+' of the last 28 days · '+plural(d.apps28,'application')+' in that time');p.style.marginTop='10px';l.appendChild(p);
+  c.appendChild(l);
+  var hw=el('div','heatwrap');hw.appendChild(el('div','eyebrow','Last 4 weeks'));
+  var g=el('div','heat');['M','T','W','T','F','S','S'].forEach(function(x){g.appendChild(el('div','dh',x))});
+  d.heat.forEach(function(x){
+    var b=el('button','c');b.type='button';
+    if(x.fut){b.className='c fut';b.disabled=true;b.setAttribute('aria-label',fmtLong(x.n)+': upcoming')}
+    else{var lv=x.a===0?0:x.a<=2?1:x.a<=5?2:x.a<=9?3:4;if(lv)b.className='c l'+lv;if(x.n===d.tn)b.className+=' tdy';
+      b.setAttribute('aria-label',fmtLong(x.n)+': '+plural(x.a,'application'));
+      tip(b,function(){return fmtLong(x.n)+': '+plural(x.a,'application')});
+      clickable(b,function(){openApps({from:isoOf(x.n),to:isoOf(x.n)},'Applied on '+fmtLong(x.n))})}
+    g.appendChild(b)});
+  hw.appendChild(g);
+  var k=el('div','hkey');k.appendChild(document.createTextNode('0'));[0,1,2,3,4].forEach(function(i){var s=el('i');s.style.background='var(--h'+i+')';k.appendChild(s)});k.appendChild(document.createTextNode('10+'));hw.appendChild(k);
+  c.appendChild(hw);return c;
+}
+function doNext(d){
+  var c=card('Do next','Deadlines first, then interviews that have gone quiet, then referral asks.');
+  var any=false;
+  // deadlines
+  if(d.dl.length){any=true;var g=el('div','grp');var h=el('div','grp-h','Deadlines');h.appendChild(el('b',null,String(d.dl.length)));g.appendChild(h);
+    d.dl.forEach(function(x){var late=x.left!=null&&x.left<0;var it=el('div','item '+(late?'crit':(x.left!=null&&x.left<=2?'warn':'')));it.appendChild(el('span','stripe'));
+      var t=el('div');t.appendChild(el('div','t1',x.co));t.appendChild(el('div','t2',x.what));
+      var w=el('div','t3');if(x.left==null)w.textContent='No due date saved';else{var s=el('span',late?'late':null,late?plural(-x.left,'day')+' late':(x.left===0?'Due today':plural(x.left,'day')+' left'));w.appendChild(s);w.appendChild(document.createTextNode(' · due '+fmtIso(x.due)))}
+      t.appendChild(w);it.appendChild(t);
+      var a=el('div','acts');var b=el('button','sm','Mark done');b.type='button';b.onclick=function(){markDone(x.i)};a.appendChild(b);it.appendChild(a);g.appendChild(it)});
+    c.appendChild(g)}
+  // quiet interviews
+  var quiet=d.interviews.filter(function(r){return !r.live});
+  if(quiet.length){any=true;var g2=el('div','grp');var h2=el('div','grp-h','Interviews gone quiet');h2.appendChild(el('b',null,String(quiet.length)));g2.appendChild(h2);
+    quiet.forEach(function(r){var it=el('div','item int');it.appendChild(el('span','stripe'));var t=el('div');t.appendChild(el('div','t1',r.co));t.appendChild(el('div','t2',String(r.st).replace(/^Interview\s*-\s*/,'')));
+      t.appendChild(el('div','t3',r.idle==null?'No date on file':'No movement for '+plural(r.idle,'day')+' · follow up, or close it in the tracker'));it.appendChild(t);
+      var a=el('div','acts');var b=el('button','sm','Open');b.type='button';b.onclick=function(){openApps({ix:r.ix},r.co)};a.appendChild(b);it.appendChild(a);g2.appendChild(it)});
+    c.appendChild(g2)}
+  // asks
+  if(d.chase.length){any=true;var g3=el('div','grp');var h3=el('div','grp-h','Ask for a referral');h3.appendChild(el('b',null,String(d.chase.length)));g3.appendChild(h3);
+    d.chase.slice(0,ASKS_SHOWN).forEach(function(x){var it=el('div','item ask');it.appendChild(el('span','stripe'));var t=el('div');
+      t.appendChild(el('div','t1',x.r.co));t.appendChild(el('div','t2',x.r.role));
+      t.appendChild(el('div','t3','Ask '+x.c.name+(x.c.pos?', '+x.c.pos:'')+(x.more>0?' (+'+x.more+' more you know there)':'')+' · quiet '+plural(x.r.idle,'day')));it.appendChild(t);
+      var a=el('div','acts');var pl=profLink(x.c);if(pl)a.appendChild(pl);var b=el('button','sm','Mark asked');b.type='button';b.onclick=function(){markAsked(x.c.url)};a.appendChild(b);
+      var s=el('button','sm ghost','Skip');s.type='button';s.title='Hide this company from referral asks';s.onclick=function(){skipCo(x.r.key)};a.appendChild(s);it.appendChild(a);g3.appendChild(it)});
+    if(d.chase.length>ASKS_SHOWN){var mb=el('button','sm',ASKS_SHOWN>5?'Show fewer':'Show all '+d.chase.length);mb.type='button';mb.style.justifySelf='start';mb.style.marginTop='8px';mb.onclick=function(){ASKS_SHOWN=ASKS_SHOWN>5?5:d.chase.length;rerender()};g3.appendChild(mb)}
+    c.appendChild(g3)}
+  if(!any)c.appendChild(el('div','empty','Nothing waiting on you. Send today’s application.'));
+  c.appendChild(el('p','foot','Referral asks: quiet '+CHASE_IDLE+'+ days, you have a Good LinkedIn connection there, and no ask is recorded yet. Newest first.'));
+  return c;
+}
+function latestCard(d){
+  var day=d.latestDay;var rows=day?d.rows.filter(function(r){return r.daOk&&!r.daApprox&&r.da===day}):[];
+  var c=card(day===d.today?'Sent today':'Latest applications',day?fmtLong(dayNum(day))+' · '+plural(rows.length,'application'):'No dated applications yet');
+  var m=el('div','mini');
+  rows.slice(0,8).forEach(function(r){var row=el('div','mrow');var a=el('div');a.appendChild(el('b',null,r.co));a.appendChild(el('span',null,r.role));row.appendChild(a);row.appendChild(el('span','chip',r.source));m.appendChild(row)});
+  c.appendChild(m);
+  if(rows.length>8){var b=el('button','sm','See all '+rows.length);b.type='button';b.style.alignSelf='start';b.onclick=function(){openApps({from:day,to:day},'Applied on '+fmtLong(dayNum(day)))};c.appendChild(b)}
+  return c;
+}
+var REFS_ALL=false;
+function referralsCard(d){
+  var cos={};d.refs.forEach(function(x){cos[x.key]=1});
+  var c=card('Referrals and asks',plural(d.refs.length,'referral')+' across '+plural(Object.keys(cos).length,'company','companies')+'.');
+  if(!d.refs.length){c.appendChild(el('div','empty','None recorded yet. Use Mark asked under Do next.'));return c}
+  var list=d.refs.slice().sort(function(a,b){var x=a.r?(a.r.daOk?a.r.da:''):(a.date||''),y=b.r?(b.r.daOk?b.r.da:''):(b.date||'');return x<y?1:x>y?-1:0});
+  var m=el('div','mini');
+  list.slice(0,REFS_ALL?999:8).forEach(function(x){var row=el('div','mrow');var a=el('div');a.appendChild(el('b',null,x.name||'Name not in the tracker'));
+    a.appendChild(el('span',null,x.co+(x.r?' · '+x.r.role:'')+(x.r&&x.r.daOk?' · applied '+fmtIso(x.r.da):(x.date?' · recorded '+fmtIso(x.date):''))));row.appendChild(a);
+    if(x.r){row.appendChild(stageChip({b:x.r.b,st:BMAP[x.r.b].l}));clickable(row,function(){openApps({ix:x.r.ix},x.co)});row.style.cursor='pointer'}
+    else row.appendChild(el('span','chip quiet',x.src==='file'?'Referral file':'Ticked here'));
+    m.appendChild(row)});
+  c.appendChild(m);
+  if(list.length>8){var b=el('button','sm',REFS_ALL?'Show fewer':'Show all '+list.length);b.type='button';b.style.alignSelf='start';b.onclick=function(){REFS_ALL=!REFS_ALL;rerender()};c.appendChild(b)}
+  var rej=d.refApps.filter(function(x){return x.r.b==='rej'}).length,itv=d.refApps.filter(function(x){return x.r.b==='int'}).length;
+  c.appendChild(el('p','foot','From the tracker’s Source column ('+plural(d.refApps.length,'referred application')+': '+itv+' at interview stage, '+rej+' rejected), plus asks marked here or in the referral file.'));
+  return c;
+}
+
+/* ---------- PIPELINE ---------- */
+function standCard(d){
+  var c=card('Where all '+d.total+' applications stand','Each application sits in exactly one group. Click a group to see its applications.');
+  var shown=BUCKETS.filter(function(b){return d.bc[b.k]});var tot=shown.reduce(function(s,b){return s+d.bc[b.k]},0);
+  var bar=el('div','stand');bar.setAttribute('role','group');bar.setAttribute('aria-label','Applications by group');
+  shown.forEach(function(b){var n=d.bc[b.k];var s=el('button');s.type='button';s.style.background=b.c;s.style.flex=String(n);s.setAttribute('aria-label',b.l+': '+n);
+    tip(s,function(){return b.l+': '+n+' ('+pct(n,d.total)+' of all)'});clickable(s,function(){openApps({b:b.k},b.l)});bar.appendChild(s)});
+  c.appendChild(bar);
+  var lg=el('div','slegend');
+  BUCKETS.concat([BMAP.nodate,BMAP.wd]).forEach(function(b){var n=d.bc[b.k]||0;if(!n&&(b.k==='nodate'||b.k==='wd'))return;
+    var it=el('button','sl');it.type='button';var i=el('i');i.style.background=b.c;it.appendChild(i);it.appendChild(el('span',null,b.l));var v=el('b',null,String(n));v.appendChild(el('small',null,pct(n,d.total)));it.appendChild(v);
+    clickable(it,function(){openApps({b:b.k},b.l)});lg.appendChild(it)});
+  c.appendChild(lg);
+  var extra=[];if(d.bc.nodate)extra.push(d.bc.nodate+' waiting with no usable date');if(d.bc.wd)extra.push(d.bc.wd+' withdrawn');
+  c.appendChild(el('p','foot','“Some activity” means a portal or recruiter action short of an interview, such as a resume view or a shortlist. Waiting and no-reply are measured from the last activity on file.'+(extra.length?' Not in the bar: '+extra.join(', ')+'.':'')));
+  return c;
+}
+function interviewsCard(d){
+  var live=d.interviews.filter(function(r){return r.live}).length;
+  var c=card('Interviews',live+' moving · '+(d.interviews.length-live)+' quiet for '+QUIET+'+ days');
+  if(!d.interviews.length){c.appendChild(el('div','empty','No applications at interview stage.'));return c}
+  var m=el('div','mini');
+  d.interviews.forEach(function(r){var row=el('div','mrow');var a=el('div');a.appendChild(el('b',null,r.co));a.appendChild(el('span',null,String(r.st).replace(/^Interview\s*-\s*/,'')+' · '+r.role));row.appendChild(a);
+    var ch=el('span','chip '+(r.live?'live':'quiet'));var i=el('i');i.style.background=r.live?'var(--s-int)':'var(--s-quiet)';ch.appendChild(i);ch.appendChild(document.createTextNode(r.idle==null?'no date':(r.live?'moved '+r.idle+'d ago':'quiet '+r.idle+'d')));row.appendChild(ch);
+    clickable(row,function(){openApps({ix:r.ix},r.co)});row.style.cursor='pointer';m.appendChild(row)});
+  c.appendChild(m);c.appendChild(el('p','foot','Moving = the row changed in the last '+QUIET+' days. Quiet ones also show under Do next on Today.'));
+  return c;
+}
+function deadlinesCard(d){
+  var c=card('Deadlines','Assessments and links that expire, soonest first.');
+  var add=el('button','sm','Add deadline');add.type='button';add.onclick=openAddDl;c.head.appendChild(add);
+  if(!d.dl.length){c.appendChild(el('div','empty','No open deadlines.'));return c}
+  var m=el('div','mini');
+  d.dl.forEach(function(x){var row=el('div','mrow');var a=el('div');a.appendChild(el('b',null,x.co));a.appendChild(el('span',null,x.what+(x.due?' · due '+fmtIso(x.due):'')));row.appendChild(a);
+    var r=el('div');r.style.display='flex';r.style.gap='8px';r.style.alignItems='center';var late=x.left!=null&&x.left<0;
+    r.appendChild(el('span','num'+(late?' late':''),x.left==null?'no date':late?(-x.left)+'d late':x.left===0?'today':x.left+'d'));
+    var b=el('button','sm','Done');b.type='button';b.onclick=function(){markDone(x.i)};r.appendChild(b);row.appendChild(r);m.appendChild(row)});
+  c.appendChild(m);return c;
+}
+function waitCard(d){
+  var tot=d.waitAges.reduce(function(s,b){return s+b.n},0);
+  var c=card('How long applications have waited','Applications with no response yet, by days since you applied.');
+  var mx=1;d.waitAges.forEach(function(b){if(b.n>mx)mx=b.n});
+  var g=el('div','cols hist5');
+  d.waitAges.forEach(function(b){var col=el('button','col');col.type='button';var i=el('i');i.style.height=(100*b.n/mx*0.86)+'%';i.style.background=b.lo>=NOREPLY?'var(--s-quiet)':'var(--s-wait)';
+    var lb=el('span','lbl',String(b.n));lb.style.bottom='calc('+(100*b.n/mx*0.86)+'% + 4px)';col.appendChild(lb);col.appendChild(i);
+    col.setAttribute('aria-label',b.l+': '+b.n);tip(col,function(){return b.l+' since applying: '+plural(b.n,'application')});
+    clickable(col,function(){openApps({stage:'Applied',ageLo:b.lo,ageHi:b.hi},'Waiting '+b.l+' since applying')});g.appendChild(col)});
+  c.appendChild(g);var lab=el('div','collab');d.waitAges.forEach(function(b){lab.appendChild(el('span',null,b.l))});c.appendChild(lab);
+  c.appendChild(el('p','foot',tot+' with a known application date'+(d.waitNoDate?'; '+d.waitNoDate+' without one are not shown':'')+'. Approximate Naukri dates (“~”) count by their week.'));
+  return c;
+}
+
+/* ---------- WHAT'S WORKING ---------- */
+function kpis(d){
+  var g=el('div','grid g-kpi');
+  function tile(v,unit,l,s,fn){var c=el('section','card kpi');var vv=el('div','v num',String(v));if(unit)vv.appendChild(el('small',null,unit));c.appendChild(vv);c.appendChild(el('div','l',l));c.appendChild(el('div','s',s));if(fn){clickable(c,fn);c.style.cursor='pointer'}return c}
+  var it=d.bc.int||0;
+  g.appendChild(tile(it,'of '+d.total,'At interview stage now',pct(it,d.total)+' of all applications',function(){openApps({b:'int'},'Interview stage')}));
+  g.appendChild(tile(d.heard,'of '+d.total,'Heard back in any way',pct(d.heard,d.total)+' · rejections count as a reply',function(){openApps({heard:true},'Heard back in any way')}));
+  g.appendChild(tile(d.rejGap.median==null?'–':d.rejGap.median,'days','Typical wait for a rejection','Median from applying, n = '+d.rejGap.n));
+  g.appendChild(tile(d.apps28,'sent','Last 28 days','On '+d.active28+' different days'));
+  return g;
+}
+function ratesCard(title,q,res,kind){
+  var c=card(title,q);
+  if(!res.shown.length){c.appendChild(el('div','empty','No group has '+MIN_N+' or more applications yet.'));return c}
+  var mx=0.0001;res.shown.forEach(function(o){mx=Math.max(mx,o.h/o.n,o.i/o.n)});var mxI=mx,mxH=mx;
+  var w=el('div','rates');var hd=el('div','rhead');hd.appendChild(el('span',null,kind==='src'?'Source':'Role type'));hd.appendChild(el('span',null,'Interview stage'));hd.appendChild(el('span',null,'Heard back'));w.appendChild(hd);
+  function mbar(n,of,col,mx){var m=el('div','mbar');var t=el('div','track');var i=el('i');i.style.width=(of?Math.max(n?3:0,100*(n/of)/mx):0)+'%';i.style.background=col;t.appendChild(i);m.appendChild(t);var v=el('div','v');v.appendChild(el('b',null,String(n)));v.appendChild(document.createTextNode(' of '+of+' · '+pct(n,of)));m.appendChild(v);return m}
+  res.shown.forEach(function(o){var r=el('div','rrow');var nm=el('div','nm',o.k);r.appendChild(nm);
+    r.appendChild(mbar(o.i,o.n,'var(--s-int)',mxI));r.appendChild(mbar(o.h,o.n,'var(--s-act)',mxH));
+    tip(r,function(){return o.k+': '+o.i+' at interview stage, '+o.h+' heard back, out of '+o.n+'. 95% range for heard back: '+ci(o.h,o.n)+'.'});
+    clickable(r,function(){openApps(kind==='src'?{source:o.k}:{fam:o.k},o.k)});w.appendChild(r)});
+  c.appendChild(w);
+  var hid=res.hidden.reduce(function(s,o){return s+o.n},0);
+  c.appendChild(el('p','foot','Both columns share one scale, so short blue bars are the real size. Groups under '+MIN_N+' applications are left out'+(res.hidden.length?' ('+res.hidden.length+' groups, '+plural(hid,'application')+')':'')+'. Interview stage counts only rows still at that stage; one that later turned into a rejection counts as heard back.'));
+  return c;
+}
+function weeksCard(d){
+  var th=d.weeks[d.weeks.length-1];
+  var c=card('Applications per week','Last 8 weeks, Monday to Sunday. This week so far: '+th.a+'.');
+  var mx=1;d.weeks.forEach(function(w){if(w.a>mx)mx=w.a});
+  var g=el('div','cols');
+  d.weeks.forEach(function(w,ix){var col=el('button','col');col.type='button';var h=100*w.a/mx*0.86;var i=el('i');i.style.height=h+'%';if(ix===7)i.style.opacity='.55';
+    var lb=el('span','lbl',String(w.a));lb.style.bottom='calc('+h+'% + 4px)';col.appendChild(lb);col.appendChild(i);
+    col.setAttribute('aria-label','Week of '+fmtDate(w.start)+': '+w.a);tip(col,function(){return 'Week of '+fmtDate(w.start)+': '+plural(w.a,'application')+', '+w.h+' heard back, '+w.i+' at interview stage'+(ix===7?' (week in progress)':'')});
+    clickable(col,function(){openApps({from:isoOf(w.start),to:isoOf(w.start+6)},'Applied in the week of '+fmtDate(w.start))});g.appendChild(col)});
+  c.appendChild(g);var lab=el('div','collab');d.weeks.forEach(function(w){lab.appendChild(el('span',null,fmtDate(w.start)))});c.appendChild(lab);
+  c.appendChild(el('p','foot','Counts use the application date, including approximate Naukri dates. The lighter bar is the current, unfinished week.'));
+  return c;
+}
+function companiesCard(d){
+  var c=card('Companies you’ve applied to most','Repeat applications and how they ended. '+d.repeatCos+' companies appear more than once.');
+  if(!d.topCos.length){c.appendChild(el('div','empty','No company has 3 or more applications.'));return c}
+  var mx=d.topCos[0].n;
+  d.topCos.forEach(function(o){var r=el('div','corow');r.appendChild(el('b',null,o.co));var m=el('div','minis');m.style.width=(100*o.n/mx)+'%';
+    BUCKETS.concat([BMAP.nodate,BMAP.wd]).forEach(function(b){var n=o.c[b.k];if(!n)return;var i=el('i');i.style.background=b.c;i.style.flex=String(n);m.appendChild(i)});r.appendChild(m);r.appendChild(el('span','num',String(o.n)));
+    tip(r,function(){return o.co+': '+BUCKETS.concat([BMAP.nodate,BMAP.wd]).filter(function(b){return o.c[b.k]}).map(function(b){return o.c[b.k]+' '+b.l.toLowerCase()}).join(', ')});
+    clickable(r,function(){openApps({co:o.co},o.co)});c.appendChild(r)});
+  c.appendChild(el('p','foot','Bar colours match the groups on Pipeline. Rows logged as “iimjobs listing (company not named)” are left out.'));
+  return c;
+}
+function referralCard(d){
+  var c=card('Referral coverage','Of the applications you sent in the last 30 days, how many were at a company where you know someone.');
+  var v=el('div','kpi');var big=el('div','v num',String(d.ref.w));big.appendChild(el('small',null,'of '+d.ref.n));v.appendChild(big);v.appendChild(el('div','s',pct(d.ref.w,d.ref.n)+' had at least one Good LinkedIn connection'));c.appendChild(v);
+  var t=el('div','track');t.style.height='10px';var i=el('i');i.style.width=(d.ref.n?100*d.ref.w/d.ref.n:0)+'%';i.style.background='var(--accent)';t.appendChild(i);c.appendChild(t);
+  c.appendChild(el('p','foot','The tracker doesn’t record when each ask was sent, so this can’t say whether asking helped. Open asks are listed under Do next.'));
+  return c;
+}
+
+/* ---------- drawer: the applications behind any number ---------- */
+var DR={f:{},title:'',q:'',sort:'la',lim:100};
+function openApps(f,title){DR.f=f||{};DR.title=title||'All applications';DR.q='';DR.lim=100;DR.sort=f&&(f.from)?'da':'la';hideTip();drawDrawer()}
+function closeDrawer(){document.getElementById('overlay').innerHTML='';document.body.style.overflow='';if(DR.ret&&DR.ret.focus)DR.ret.focus()}
+function matchF(r,f){
+  if(f.ix!=null)return r.ix===f.ix;
+  if(f.b&&r.b!==f.b)return false;
+  if(f.stage&&r.stage!==f.stage)return false;
+  if(f.heard&&!r.heard)return false;
+  if(f.source&&r.source!==f.source)return false;
+  if(f.fam&&r.fam!==f.fam)return false;
+  if(f.co&&r.co!==f.co)return false;
+  if(f.from&&!(r.daOk&&r.da>=f.from&&r.da<=f.to))return false;
+  if(f.ageLo!=null&&!(r.age!=null&&r.age>=f.ageLo&&r.age<=f.ageHi))return false;
+  return true;
+}
+function drawDrawer(){
+  if(!D)return;DR.ret=document.activeElement;
+  var ov=document.getElementById('overlay');ov.innerHTML='';document.body.style.overflow='hidden';
+  var sc=el('div','scrim');sc.onclick=closeDrawer;ov.appendChild(sc);
+  var dr=el('aside','drawer');dr.setAttribute('role','dialog');dr.setAttribute('aria-modal','true');dr.setAttribute('aria-label',DR.title);ov.appendChild(dr);
+  var h=el('div','dr-h');var top=el('div','top');var tt=el('div');tt.appendChild(el('h3',null,DR.title));var sub=el('div','sub');tt.appendChild(sub);top.appendChild(tt);
+  var x=el('button','sm','Close');x.type='button';x.onclick=closeDrawer;top.appendChild(x);h.appendChild(top);
+  var tools=el('div','dr-tools');var q=el('input');q.type='search';q.id='dr-q';q.placeholder='Search company, role or status';q.setAttribute('aria-label','Search these applications');tools.appendChild(q);
+  var so=el('select');so.id='dr-sort';so.setAttribute('aria-label','Sort');[['la','Latest activity'],['da','Date applied'],['co','Company A–Z'],['idle','Longest quiet']].forEach(function(o){var op=el('option',null,o[1]);op.value=o[0];so.appendChild(op)});so.value=DR.sort;tools.appendChild(so);
+  h.appendChild(tools);dr.appendChild(h);var body=el('div','dr-body');dr.appendChild(body);
+  function draw(){
+    body.innerHTML='';var t=DR.q.toLowerCase();
+    var rows=D.rows.filter(function(r){return matchF(r,DR.f)&&(!t||(r.co+' '+r.role+' '+r.st+' '+r.src).toLowerCase().indexOf(t)>-1)});
+    rows.sort(function(a,b){if(DR.sort==='co')return a.co.localeCompare(b.co);if(DR.sort==='idle')return ((b.idle==null)?-1:b.idle)-((a.idle==null)?-1:a.idle);var k=DR.sort,x=a[k+'Ok']?a[k]:'',y=b[k+'Ok']?b[k]:'';return x<y?1:x>y?-1:0});
+    sub.textContent=plural(rows.length,'application')+(DR.q?' matching “'+DR.q+'”':'');
+    if(!rows.length){body.appendChild(el('div','empty','Nothing matches.'));return}
+    rows.slice(0,DR.lim).forEach(function(r){var a=el('div','arow');a.appendChild(el('b',null,r.co));
+      var idl=el('div','idle',r.idle==null?'–':String(r.idle));idl.appendChild(el('small',null,r.idle==null?'no date':'days quiet'));a.appendChild(idl);
+      a.appendChild(el('div','r',r.role||'Role not on file'));var m=el('div','m');m.appendChild(stageChip(r));m.appendChild(el('span',null,r.source));
+      m.appendChild(el('span',null,'Applied '+(r.daOk?(r.daApprox?'around ':'')+fmtIso(r.da):(r.da||'date unknown'))));if(r.laOk)m.appendChild(el('span',null,'Last activity '+fmtIso(r.la)));a.appendChild(m);body.appendChild(a)});
+    if(rows.length>DR.lim){var mb=el('button','sm','Show '+Math.min(100,rows.length-DR.lim)+' more');mb.type='button';mb.style.marginTop='10px';mb.onclick=function(){DR.lim+=100;draw()};body.appendChild(mb)}
+  }
+  q.addEventListener('input',function(){DR.q=q.value.trim();DR.lim=100;draw()});so.addEventListener('change',function(){DR.sort=so.value;draw()});
+  draw();x.focus();
+}
+
+/* ---------- dialogs ---------- */
+function closeOv(){document.getElementById('overlay').innerHTML='';document.body.style.overflow=''}
+function openDlg(build){var ov=document.getElementById('overlay');ov.innerHTML='';var sc=el('div','scrim');ov.appendChild(sc);var wrap=el('div','dlg-wrap');var dlg=el('div','dlg');dlg.setAttribute('role','dialog');dlg.setAttribute('aria-modal','true');wrap.appendChild(dlg);ov.appendChild(wrap);wrap.addEventListener('click',function(e){if(e.target===wrap)closeOv()});build(dlg)}
+function openAddDl(){
+  openDlg(function(dlg){
+    dlg.appendChild(el('h3',null,'Add a deadline'));
+    function f(label,type,id,ph){var l=el('label',null,label);l.setAttribute('for',id);dlg.appendChild(l);var i=el('input');i.type=type;i.id=id;if(ph)i.placeholder=ph;dlg.appendChild(i);return i}
+    var co=f('Company','text','dl-co','e.g. Company A'),wh=f('What is due','text','dl-wh','e.g. Online assessment'),dt=f('Due date (leave empty if unknown)','date','dl-dt');
+    var msg=el('div','msg err');dlg.appendChild(msg);
+    var r=el('div','row');var c=el('button',null,'Cancel');c.type='button';c.onclick=closeOv;var s=el('button','primary','Add deadline');s.type='button';r.appendChild(c);r.appendChild(s);dlg.appendChild(r);
+    s.onclick=function(){if(!co.value.trim()||!wh.value.trim()){msg.textContent='Add the company and what is due.';return}
+      S.deadlines.push([co.value.trim(),wh.value.trim(),dt.value||'','']);closeOv();rerender();saveDoc('deadlines',{rows:S.deadlines})};
+    co.focus();
+  });
+}
+function openDefs(){
+  openDlg(function(dlg){
+    dlg.appendChild(el('h3',null,'How it’s counted'));
+    var d=D;
+    dlg.appendChild(el('p',null,'This demo runs on made-up sample data. In the real dashboard, every figure comes from my application tracker (one row per application) and the LinkedIn connections in my referral file. Nothing is estimated.'));
+    var tw=el('div','twrap');var t=el('table','dtable');var hr=el('tr');['Group','Tracker statuses','Rows'].forEach(function(x){hr.appendChild(el('th',null,x))});t.appendChild(hr);
+    [['int','Any status starting “Interview -”'],['act','Under review, resume or application viewed, shortlisted, assessment completed, contact viewed'],['wait','Applied, last activity under '+NOREPLY+' days ago'],['quiet','Applied, last activity '+NOREPLY+' or more days ago'],['nodate','Applied, no usable last-activity date'],['rej','Rejected, or Likely Rejected (high or medium confidence)'],['wd','Withdrawn']].forEach(function(x){var tr=el('tr');tr.appendChild(el('td',null,BMAP[x[0]].l));tr.appendChild(el('td',null,x[1]));tr.appendChild(el('td','num',d?String(d.bc[x[0]]||0):'–'));t.appendChild(tr)});
+    tw.appendChild(t);dlg.appendChild(tw);
+    var ul=el('ul');[
+      'Heard back = Some activity + Interview stage + Rejected.',
+      'Interview stage counts rows at that stage today. The tracker keeps no history, so an interview that later ended in a rejection counts as heard back only.',
+      'Interviews are “moving” if the row changed in the last '+QUIET+' days, otherwise “quiet”.',
+      'Referral asks: quiet '+CHASE_IDLE+'+ days, a Good LinkedIn connection at the company, and no ask recorded in the referral file or here. Companies are matched on the first word of the name (two words for common openers such as “American” or “State”).',
+      'Typical wait for a rejection: median of rejection date minus application date, exact dates only.',
+      'Source and role rates show groups with '+MIN_N+'+ applications. The 95% range in each tooltip is a Wilson interval; wide ranges mean the group is too small to rank with confidence.',
+      'Dates written “~YYYY-MM-DD” come from Naukri, which only shows weeks. They count in weekly figures but not in daily ones.'+(d?' '+d.dataQuality.noDa+' rows have no usable application date and '+d.dataQuality.noLa+' have no usable last-activity date.':'')
+    ].forEach(function(x){ul.appendChild(el('li',null,x))});dlg.appendChild(ul);
+    var r=el('div','row');var c=el('button',null,'Close');c.type='button';c.onclick=closeOv;r.appendChild(c);dlg.appendChild(r);c.focus();
+  });
+}
+
+/* ---------- demo: made-up sample data, generated relative to today ---------- */
+function sampleData(){
+  var seed=7;function rnd(){seed=(seed*1664525+1013904223)%4294967296;return seed/4294967296}
+  function pick(a){return a[Math.floor(rnd()*a.length)]}
+  var tn=dayNum(todayIso());
+  var L='ABCDEFGHIJKLMNOPQRSTUVWXYZ';var cos=[];for(var i=0;i<48;i++)cos.push('Company '+(i<26?L[i]:L[Math.floor(i/26)-1]+L[i%26]));
+  var roles=['Program Manager','Associate Program Manager','Product Analyst','Business Analyst','Strategy & Operations Associate','Founder\u2019s Office Associate','Chief of Staff Associate','Data Analyst','Associate Product Manager','Operations Analyst','Project Manager','Business Operations Associate'];
+  var srcs=['LinkedIn Easy Apply','LinkedIn Easy Apply','LinkedIn Easy Apply','Naukri','Naukri','iimjobs','Direct/company careers site','Direct/company careers site','Indeed'];
+  var apps=[];
+  for(var dd=70;dd>=0;dd--){var n=tn-dd;var dow=new Date(n*86400000).getUTCDay();var k=dow===0||dow===6?Math.floor(rnd()*2):Math.floor(rnd()*5);
+    for(var j=0;j<k;j++){var co=pick(cos),role=pick(roles),src=pick(srcs),da=isoOf(n),st='Applied',la=da,x=rnd();
+      if(dd>5){
+        if(x<0.24){st='Rejected';la=isoOf(n+Math.min(dd,4+Math.floor(rnd()*20)))}
+        else if(x<0.31){st=pick(['Interview - Round 1','Interview - Online Assessment Pending','Interview - Round 2']);la=isoOf(n+Math.min(dd,3+Math.floor(rnd()*15)))}
+        else if(x<0.43){st=pick(['Applied - Resume Viewed','Applied - Under Review','Under Review - Shortlisted']);la=isoOf(n+Math.min(dd,1+Math.floor(rnd()*10)))}
+      }
+      apps.push([co,role,src,da,st,la])}}
+  var pos=['Product Manager','Program Manager','Senior Analyst','Engineering Manager','HR Business Partner','Consultant'];
+  var conns=[];for(var c=0;c<48;c+=3){conns.push([cos[c],'Contact '+(c/3+1),pick(pos),'',rnd()<0.25?'Yes':'No',isoOf(tn-Math.floor(rnd()*120))])}
+  var deadlines=[['Company C','Online assessment',isoOf(tn+2),''],['Company K','Case study submission',isoOf(tn+5),''],['Company F','Assessment link expires','','']];
+  return {apps:apps,conns:conns,deadlines:deadlines};
+}
+function start(){
+  var sd=sampleData();S.db=null;S.apps=sd.apps;S.conns=sd.conns;S.deadlines=sd.deadlines;S.actions={asked:{},other:{},skip:{}};S.loading=false;S.err=null;render();
+}
+
+/* ---------- render ---------- */
+function render(){
+  MAIN.innerHTML='';
+  document.querySelectorAll('.tabs a').forEach(function(a){if(a.getAttribute('data-v')===VIEW)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+  var asof=document.getElementById('asof');
+  if(!S.apps){
+    asof.textContent=S.loading?'Loading…':'No data yet';
+    var s=el('section','card state');s.appendChild(el('h2',null,S.loading?'Loading your applications':'No data yet'));
+    s.appendChild(el('p','q',S.err||(S.loading?'Reading the saved tracker data.':'Use Refresh data and choose Job_Applications_Tracker.xlsx to fill the dashboard.')));s.querySelector('.q').style.margin='0 auto';
+    MAIN.appendChild(s);D=null;return;
+  }
+  var d=D=derive();window.__D=d;
+  var age=d.asOf?Math.round(d.tn-dayNum(d.asOf)):null;
+  asof.textContent=d.total+' applications · data as of '+(d.asOf?fmtIso(d.asOf):'unknown')+(age>1?' ('+age+' days old)':'');
+  if(VIEW==='pipeline'){
+    MAIN.appendChild(standCard(d));
+    var g=el('div','grid g-pipe');g.appendChild(interviewsCard(d));g.appendChild(deadlinesCard(d));MAIN.appendChild(g);
+    MAIN.appendChild(waitCard(d));
+  }else if(VIEW==='working'){
+    MAIN.appendChild(kpis(d));
+    var g2=el('div','grid g-2');g2.appendChild(ratesCard('Which sources get interviews?','Share of each source’s applications now at interview stage, and share that heard back at all.',d.bySource,'src'));
+    g2.appendChild(ratesCard('Which role types get interviews?','The same two measures by role type, matched from the job title.',d.byFam,'fam'));MAIN.appendChild(g2);
+    var g3=el('div','grid g-2');g3.appendChild(weeksCard(d));g3.appendChild(companiesCard(d));MAIN.appendChild(g3);
+    MAIN.appendChild(referralCard(d));
+  }else{
+    MAIN.appendChild(todayHero(d));
+    var g4=el('div','grid g-today');g4.appendChild(doNext(d));var side=el('div','grid');side.style.alignContent='start';side.appendChild(latestCard(d));side.appendChild(referralsCard(d));g4.appendChild(side);MAIN.appendChild(g4);
+  }
+}
+function route(){var h=(location.hash||'').replace('#','');VIEW=(h==='pipeline'||h==='working')?h:'today';closeOv();render()}
+window.addEventListener('hashchange',route);
+document.getElementById('defbtn').onclick=openDefs;
+document.getElementById('allbtn').onclick=function(){openApps({},'All applications')};
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){hideTip();closeOv()}});
+route();start();
+})();
+</script>
+
+</body></html>
