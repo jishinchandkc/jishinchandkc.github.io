@@ -243,6 +243,18 @@ details.full > .rows { margin-top: 1.25rem; }
 .more .report-foot { margin: 0; padding: 0.6rem 0.9rem; font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.5; color: var(--muted); }
 .report figcaption { padding: 0 0.9rem 0.7rem; font-size: 0.82rem; color: var(--muted); }
 
+/* stat cards and problem line */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); gap: 0.6rem; margin: 1.1rem 0 0; max-width: 44rem; }
+.stat { background: var(--panel); border-top: 3px solid var(--accent); padding: 0.7rem 0.8rem 0.75rem; min-width: 0; }
+.stat .v { display: block; font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; line-height: 1.1; color: var(--accent); }
+.stat .k { display: block; margin-top: 0.3rem; font-size: 0.82rem; line-height: 1.35; color: var(--muted); }
+.pair .stats { grid-template-columns: repeat(auto-fit, minmax(5.5rem, 1fr)); margin: 0.2rem 0 0.7rem; }
+.pair .stat .v { font-size: 1.35rem; }
+.problem { margin: 1.1rem 0 0; max-width: 40rem; }
+.problem b { display: block; margin-bottom: 0.2rem; font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.pair .problem { margin: 0 0 0.7rem; }
+.case .stats + .note, section > .stats + .note { margin-top: 0.6rem; }
+
 /* more */
 .more { list-style: none; margin: 1.5rem 0 0; padding: 0; border-top: 1px solid var(--line); }
 .more li { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 0.25rem 2rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line); }
@@ -318,7 +330,7 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
     <li><a href="#program"><span class="t">Residential Leadership Program</span><span class="m">Showtime Consulting, 2025 to 2026</span><span class="r">11 of 11 batches, 1,420 participants</span></a></li>
     <li><a href="#carts"><span class="t">Street Food Cart Scheme, Revived</span><span class="m">Showtime Consulting, 2025 to 2026</span><span class="r">24 women vendors, 44% higher profit</span></a></li>
     <li><a href="#app"><span class="t">Membership App Engagement</span><span class="m">Showtime Consulting, 2025 to 2026</span><span class="r">Session length up 15%</span></a></li>
-    <li><a href="#smart-joules"><span class="t">HVAC Complaint Portal</span><span class="m">Smart Joules internship, 2024</span><span class="r">Resolution time down 70%</span></a></li>
+    <li><a href="#smart-joules"><span class="t">HVAC Digital Transformation</span><span class="m">Smart Joules internship, 2024</span><span class="r">Resolution time down 70%</span></a></li>
   </ul>
 
   <section id="showtime">
@@ -329,30 +341,23 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
     <article class="case" id="program">
       <span class="label">Training program</span>
       <h3>The Client's First Residential Leadership Program</h3>
-      <table class="ledger">
-        <tbody>
-          <tr><th scope="row">Batches delivered as scheduled</th><td>11 of 11</td></tr>
-          <tr><th scope="row">Participants</th><td>1,420</td></tr>
-          <tr><th scope="row">Batch reports</th><td>One after every batch</td></tr>
-          <tr><th scope="row">Overall program satisfaction</th><td>4.65/5</td></tr>
-          <tr><th scope="row">Outcome</th><td>Client extended it to the next tier</td></tr>
-        </tbody>
-      </table>
-      <p class="gist">I coordinated the program for the consulting firm, from building the presentation decks to running a 10-member on-site team, the feedback system and a report after every batch.</p>
+      <div class="stats">
+        <div class="stat"><span class="v">11/11</span><span class="k">batches delivered on schedule</span></div>
+        <div class="stat"><span class="v">1,420</span><span class="k">participants</span></div>
+        <div class="stat"><span class="v">4.65/5</span><span class="k">overall satisfaction</span></div>
+        <div class="stat"><span class="v">Next tier</span><span class="k">client extended the program</span></div>
+      </div>
+      <p class="problem"><b>Problem</b> The client had never run a residential program at this scale, and two batches a week left three days to fix anything before the next group arrived.</p>
       <details class="full">
         <summary><span class="when-closed">Read the full case</span><span class="when-open">Hide the full case</span></summary>
       <dl class="rows">
         <div class="row">
-          <dt>Before</dt>
-          <dd>The client had never run a residential program at this scale. Two batches a week, on Monday and Thursday, left three days to fix anything before the next group arrived.</dd>
+          <dt>Approach</dt>
+          <dd>Make every batch inform the next. Feedback started on handwritten Telugu forms that were hard to read and slow to add up. Participants moved to Google Forms, and trainer forms were entered into Excel. From the data, I recommended which trainers to bring back and which sessions needed more time. The client made the final call. Changes that went through included longer sessions and a move from 1.5 to 2 full days.</dd>
         </div>
         <div class="row">
-          <dt>My part</dt>
+          <dt>My role</dt>
           <dd>I was the consulting firm's coordinator. Our work started before the first batch: the client supplied the module content as documents, and we turned it into presentation decks through many rounds of revisions. I built the decks for two to three modules. I then confirmed the master schedule and shared it across the client's teams. During each batch, I directed a 10-member on-site team: collecting attendance signatures, checking every booklet and kit against the count, and calling each absentee to record the reason. After each batch, I turned attendance, absentee reasons and feedback into a report for the client's senior leadership.</dd>
-        </div>
-        <div class="row">
-          <dt>Feedback</dt>
-          <dd>Feedback started on handwritten Telugu forms that were hard to read and slow to add up. Participants moved to Google Forms, and trainer forms were entered into Excel. From the data, I recommended which trainers to bring back and which sessions needed more time. The client made the final call. Changes that went through included longer sessions and a move from 1.5 to 2 full days.</dd>
         </div>
         <div class="row">
           <dt>Hardest part</dt>
@@ -365,28 +370,23 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
     <article class="case" id="carts">
       <span class="label">Livelihood scheme · Mangalagiri, Andhra Pradesh</span>
       <h3>Street Food Cart Scheme, Revived</h3>
-      <table class="ledger">
-        <tbody>
-          <tr><th scope="row">Women vendors put into business</th><td>24, one new cart each</td></tr>
-          <tr><th scope="row">Vendor profit</th><td>44% higher</td></tr>
-        </tbody>
-      </table>
+      <div class="stats">
+        <div class="stat"><span class="v">14 months</span><span class="k">dormant before the revival</span></div>
+        <div class="stat"><span class="v">24</span><span class="k">women vendors in business, one cart each</span></div>
+        <div class="stat"><span class="v">+44%</span><span class="k">vendor profit</span></div>
+      </div>
       <p class="note">The 44% is the vendors' outcome, measured across a cohort that included our 24 carts.</p>
-      <p class="gist">I found the scheme sitting dormant, diagnosed three operational gaps, and the team relaunched it with 24 new carts.</p>
+      <p class="problem"><b>Problem</b> A scheme that gave women street vendors their own carts had a working 52-cart pilot, then sat for 14 months with no owner.</p>
       <details class="full">
         <summary><span class="when-closed">Read the full case</span><span class="when-open">Hide the full case</span></summary>
       <dl class="rows">
         <div class="row">
-          <dt>Before</dt>
-          <dd>A scheme giving carts to women street vendors had a 52-cart pilot behind it, then sat for 14 months with no owner.</dd>
+          <dt>Approach</dt>
+          <dd>Before adding carts, work out what would break at scale and fix that first. Studying the pilot surfaced three gaps: no daily hygiene accountability, a single raw-material supplier, and no vendor training.</dd>
         </div>
         <div class="row">
-          <dt>My part</dt>
-          <dd>I came across it during interviews on another topic; nobody had asked us to look at it. Studying the pilot, I found three operational gaps: no daily accountability for hygiene, a single raw-material supplier, and no vendor training. I proposed a daily geotagged photo check-in to close the first.</dd>
-        </div>
-        <div class="row">
-          <dt>With the team</dt>
-          <dd>Together we added a second supplier, brought in structured vendor training and coordinated the relaunch of 24 new carts. A teammate led the pitch.</dd>
+          <dt>My role</dt>
+          <dd>I found the scheme during interviews on another topic; nobody had asked us to look at it. I identified the three gaps and proposed a daily geotagged photo check-in to close the first. The team added a second supplier, brought in vendor training and coordinated the relaunch of 24 new carts. A teammate led the pitch.</dd>
         </div>
       </dl>
       </details>
@@ -396,19 +396,33 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
       <article id="app">
         <span class="label">Product</span>
         <h3>A Client's Membership App</h3>
-        <p>The app had 100,000+ downloads but low engagement, with average sessions of about five minutes. I interviewed users, benchmarked reward and streak mechanics from apps like Cred and Duolingo, and split the fixes into a phase 1 the product team could ship on the existing screens and a phase 2 that needed new backend work. The product team built phase 1.</p>
-        <p class="res">Average session length up 15%, from 5:00 to 5:45</p>
+        <p class="problem"><b>Problem</b> 100,000+ downloads but low engagement, with average sessions of about five minutes.</p>
+        <p>I interviewed users, benchmarked reward and streak mechanics from apps like Cred and Duolingo, and split the fixes into a phase 1 the product team could ship on the existing screens and a phase 2 that needed new backend work. The product team built phase 1.</p>
+        <div class="stats">
+          <div class="stat"><span class="v">+15%</span><span class="k">average session length, 5:00 to 5:45</span></div>
+        </div>
         <p class="fine">No A/B test; nothing else major shipped in that window.</p>
       </article>
       <article id="policy">
         <span class="label">Policy</span>
         <h3>From a Vague Brief to 13 Recommendations</h3>
-        <p>The brief was to "develop an outreach strategy". I reframed it as: which communities are missing support, and at which life stage? I mapped 18 occupational communities across 3 life stages and 9 support areas, and benchmarked what 17 other states provide.</p>        <p class="res">13 recommendations</p>
+        <p class="problem"><b>Problem</b> A vague brief to "develop an outreach strategy".</p>
+        <p>I reframed it as: which communities are missing support, and at which life stage? I mapped 18 occupational communities across 3 life stages and 9 support areas, and benchmarked what 17 other states provide.</p>        <div class="stats">
+          <div class="stat"><span class="v">18</span><span class="k">communities</span></div>
+          <div class="stat"><span class="v">17</span><span class="k">states benchmarked</span></div>
+          <div class="stat"><span class="v">13</span><span class="k">recommendations</span></div>
+        </div>
       </article>
       <article id="pipeline" class="wide">
         <span class="label">Livelihoods</span>
         <h3>Connecting 6 Government Departments to a Self-Employment Program</h3>
-        <p>We approached the government departments, got them on board, and connected them with the client's organizers, who invited the participants. Our team built the presentation deck the departments presented from, and I designed the interest form. Across 16 meetings, 9 for awareness and 7 for screening, 2,380 people attended, and the departments shortlisted applicants from the forms.</p>
+        <p class="problem"><b>Problem</b> Identify business opportunities that let people become self-reliant through their own enterprises, instead of depending on government jobs.</p>
+        <p>We spoke to people on the ground and to government departments to find real opportunities. SEEDAP, the state's employment and enterprise development society, shared the goal of creating employment, so we partnered with it, brought in other departments, and connected them with the client's organizers, who invited the participants. Our team built the presentation deck the departments presented from, I designed the interest form, and the departments shortlisted applicants from the forms.</p>
+        <div class="stats">
+          <div class="stat"><span class="v">6</span><span class="k">government departments</span></div>
+          <div class="stat"><span class="v">16</span><span class="k">meetings: 9 awareness, 7 screening</span></div>
+          <div class="stat"><span class="v">2,380</span><span class="k">people attended</span></div>
+        </div>
         <div class="funnel" role="img" aria-label="Funnel: 857 registrations, 458 bank applications, 107 sanctions">
           <div class="bar"><span class="fill" style="--w:100%"></span><span class="num">857 registrations</span></div>
           <div class="bar"><span class="fill" style="--w:53.44%"></span><span class="num">458 bank applications</span></div>
@@ -421,20 +435,17 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
 
   <section id="smart-joules">
     <span class="label">Smart Joules · Strategy Intern, CEO's Office · April to June 2024</span>
-    <h2>Getting HVAC Operators to Log Complaints in a Portal</h2>
-    <p class="sub">Smart Joules runs HVAC operations for hospitals and commercial buildings. The question was how to get faster, cleaner complaint data from the people at the units.</p>
-
-    <table class="ledger">
-      <tbody>
-        <tr><th scope="row">Service resolution time</th><td>Down 70%</td></tr>
-        <tr><th scope="row">Portal usage</th><td>Near zero to 90%</td></tr>
-        <tr><th scope="row">Reporting stages</th><td>4 to 2</td></tr>
-        <tr><th scope="row">Manual data entry</th><td>2.5 hours a day removed, 700+ hours a year</td></tr>
-      </tbody>
-    </table>
+    <h2>Digital Transformation of a Hospital's HVAC Operations</h2>
+    <p class="sub">Smart Joules runs HVAC operations for hospitals and commercial buildings.</p>
+    <div class="stats">
+      <div class="stat"><span class="v">400+</span><span class="k">HVAC units across 12 floors</span></div>
+      <div class="stat"><span class="v">−70%</span><span class="k">service resolution time</span></div>
+      <div class="stat"><span class="v">90%</span><span class="k">portal usage, up from near zero</span></div>
+      <div class="stat"><span class="v">4 → 2</span><span class="k">reporting steps</span></div>
+      <div class="stat"><span class="v">700+ hrs</span><span class="k">of manual data entry removed a year</span></div>
+    </div>
     <p class="note">Resolution time runs from the complaint arriving to the reply that it is resolved.</p>
-    <p class="gist">I proposed categories, QR logging and a dashboard for the portal, then coached operators from near-zero usage to 90%.</p>
-
+    <p class="problem"><b>Problem</b> This was the first site running under Smart Joules' newer model, where it runs a building's entire HVAC operation from commissioning onward rather than auditing an existing system. Other sites under the model were still under construction, so there was no playbook, no written brief and no data on what was going wrong. I was posted to the site, a large private hospital in Hyderabad, to find out and fix it.</p>
     <div class="flow" role="group" aria-label="Complaint reporting chain, before and after">
       <div class="flow-row">
         <span class="label">Before · 4 steps</span>
@@ -453,17 +464,16 @@ footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line
         </ol>
       </div>
     </div>
-
     <details class="full">
       <summary><span class="when-closed">Read the full case</span><span class="when-open">Hide the full case</span></summary>
     <dl class="rows">
       <div class="row">
-        <dt>Before</dt>
-        <dd>Every complaint went through the paper chain above, with the relationship manager doing the typing on top of the day job, so reports could go out a day or two late. A prototype portal existed, but few operators used it, and those who did typed complaints as free text.</dd>
+        <dt>Approach</dt>
+        <dd>Go to the field before deciding anything. I shadowed day and night shifts, interviewed the operators and the site engineer, and moved three months of logbooks, about 400–500 complaints, into Excel. Two findings drove the plan: a few units caused most complaints, and the morning shift carried most of the volume. After two weeks on site, I turned the verbal mandate into a five-week plan that fixed the data first, then the adoption.</dd>
       </div>
       <div class="row">
-        <dt>My part</dt>
-        <dd>The free text in the prototype was full of spelling mistakes and different wording from each operator, so the same problem was hard to track. I proposed three changes that Smart Joules' tech team built into the Zoho portal: a list of complaint categories to pick from instead of typing, a QR code on each unit to identify the machine on the spot, and a dashboard I designed. I did not write code.</dd>
+        <dt>My role</dt>
+        <dd>The free text in the prototype was full of spelling mistakes and different wording from each operator, so the same problem was hard to track. I proposed three changes that Smart Joules' tech team built into the Zoho portal: a list of complaint categories to pick from instead of typing, a QR code on each unit to identify the machine on the spot, and a dashboard I designed. I did not write code. I also adapted 15 SOPs with the site engineer.</dd>
       </div>
       <div class="row">
         <dt>Hardest part</dt>
